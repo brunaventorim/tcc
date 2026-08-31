@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Análise de Metodologias Ágeis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .card-full {
+            grid-column: 1 / -1;
+        }
+
+        .metric {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.95em;
+            opacity: 0.95;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        .comparison-table th {
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #667eea;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .framework-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 3px;
+        }
+
+        .scrum { background-color: #FF6B6B; color: white; }
+        .kanban { background-color: #4ECDC4; color: white; }
+        .safe { background-color: #FFE66D; color: #333; }
+        .less { background-color: #95E1D3; color: #333; }
+        .devops { background-color: #A8E6CF; color: #333; }
+
+        footer {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Dashboard: Análise de Metodologias Ágeis</h1>
+            <p>TCC - UERJ | Estudo das Metodologias de Desenvolvimento de Software Mais Adotadas</p>
+        </header>
+
+        <!-- Seção 1: Adoção -->
+        <div class="grid">
+            <div class="card">
+                <h2>📈 Adoção por Framework (2025)</h2>
+                <canvas id="adoptionChart"></canvas>
+            </div>
+
+            <div class="card">
+                <h2>✅ Satisfação vs. Adoção</h2>
+                <canvas id="satisfactionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Seção 2: Metricas DORA -->
+        <div class="grid">
+            <div class="card card-full">
+                <h2>🚀 Métricas DORA: Elite vs. High Performers</h2>
+                <canvas id="doraChart"></canvas>
+                <p style="margin-top: 15px; color: #666; font-size: 0.9em;">
+                    Fonte: DORA Accelerate State of DevOps Report 2024-2025
+                </p>
+            </div>
+        </div>
+
+        <!-- Seção 3: Evolução Histórica -->
+        <div class="grid">
+            <div class="card card-full">
+                <h2>📅 Evolução Histórica das Metodologias</h2>
+                <canvas id="evolutionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Seção 4: Frameworks Comparação -->
+        <div class="card card-full">
+            <h2>🎯 Comparativo: Características Principais</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Framework</th>
+                        <th>Estrutura</th>
+                        <th>Fluxo</th>
+                        <th>Escalabilidade</th>
+                        <th>Adoção (2025)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="framework-badge scrum">SCRUM</span></td>
+                        <td>Altamente estruturado</td>
+                        <td>Iterativo (Sprints)</td>
+                        <td>Média (com SAFe/LeSS)</td>
+                        <td>63%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="framework-badge kanban">KANBAN</span></td>
+                        <td>Flexível</td>
+                        <td>Contínuo</td>
+                        <td>Alta</td>
+                        <td>28%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="framework-badge safe">SAFE</span></td>
+                        <td>Framework prescritivo</td>
+                        <td>Iterativo (Program Increments)</td>
+                        <td>Muito alta (Enterprise)</td>
+                        <td>26%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="framework-badge less">LESS</span></td>
+                        <td>Scrum escalado</td>
+                        <td>Iterativo</td>
+                        <td>Alta</td>
+                        <td>8%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="framework-badge devops">DEVOPS</span></td>
+                        <td>Filosófico + Prático</td>
+                        <td>Contínuo com Automation</td>
+                        <td>Muito alta</td>
+                        <td>71%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Seção 5: O Paradoxo -->
+        <div class="grid">
+            <div class="card">
+                <h2>⚠️ O Paradoxo da Adoção</h2>
+                <div class="metric">
+                    <div class="metric-value">71%</div>
+                    <div class="metric-label">Declaram usar Agile</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">47%</div>
+                    <div class="metric-label">Reportam alta satisfação</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">34%</div>
+                    <div class="metric-label">Enfrentam barreiras substantivas</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🌍 Barreiras na América Latina</h2>
+                <div class="metric">
+                    <div class="metric-value">67%</div>
+                    <div class="metric-label">Resistência à mudança</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">47%</div>
+                    <div class="metric-label">Falta de treinamento</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">38%</div>
+                    <div class="metric-label">Liderança não familiarizada</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 6: Histórico de Falhas -->
+        <div class="card card-full">
+            <h2>📉 Standish Chaos Report: O Contexto Pré-Ágil</h2>
+            <canvas id="chaosChart"></canvas>
+            <p style="margin-top: 15px; color: #666; font-size: 0.9em;">
+                Dados de 1995: Por que o software era "caótico" antes do Agile
+            </p>
+        </div>
+
+        <footer>
+            <p>Dashboard interativo para fins acadêmicos | TCC UERJ 2026</p>
+            <p>Dados baseados em Standish Group, DORA, State of Agile e NTT DATA</p>
+        </footer>
+    </div>
+
+    <script>
+        // Configuração de cores
+        const colors = {
+            primary: '#667eea',
+            secondary: '#764ba2',
+            accent1: '#FF6B6B',
+            accent2: '#4ECDC4',
+            accent3: '#FFE66D',
+            accent4: '#95E1D3',
+            accent5: '#A8E6CF'
+        };
+
+        // 1. Gráfico de Adoção por Framework
+        new Chart(document.getElementById('adoptionChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Scrum', 'DevOps/CI-CD', 'Kanban', 'SAFe', 'XP', 'Outros'],
+                datasets: [{
+                    data: [63, 71, 28, 26, 12, 15],
+                    backgroundColor: [
+                        '#FF6B6B', '#A8E6CF', '#4ECDC4', '#FFE66D', '#95E1D3', '#DDD'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 13 },
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. Gráfico de Satisfação vs. Adoção
+        new Chart(document.getElementById('satisfactionChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: 'Organizações',
+                        data: [
+                            {x: 90, y: 47}, // Adoção vs Satisfação
+                            {x: 63, y: 72},
+                            {x: 28, y: 68},
+                            {x: 26, y: 45}
+                        ],
+                        backgroundColor: [colors.accent1, colors.accent2, colors.accent4, colors.accent3],
+                        borderWidth: 0,
+                        pointRadius: 15,
+                        pointHoverRadius: 18
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        min: 0,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Taxa de Adoção (%)',
+                            font: { size: 13, weight: 'bold' }
+                        }
+                    },
+                    y: {
+                        min: 0,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Taxa de Satisfação (%)',
+                            font: { size: 13, weight: 'bold' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // 3. Gráfico DORA Metrics
+        new Chart(document.getElementById('doraChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Deployment\nFreq.', 'Lead Time', 'MTTR', 'Change\nFailure Rate (inverso)'],
+                datasets: [
+                    {
+                        label: 'Elite Performers',
+                        data: [95, 95, 95, 95],
+                        borderColor: '#A8E6CF',
+                        backgroundColor: 'rgba(168, 230, 207, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#A8E6CF'
+                    },
+                    {
+                        label: 'High Performers',
+                        data: [75, 75, 75, 75],
+                        borderColor: '#4ECDC4',
+                        backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#4ECDC4'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 100,
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: { size: 13 },
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+
+        // 4. Gráfico de Evolução
+        new Chart(document.getElementById('evolutionChart'), {
+            type: 'line',
+            data: {
+                labels: ['1995', '2001', '2005', '2010', '2015', '2020', '2025'],
+                datasets: [
+                    {
+                        label: 'Waterfall/PMBOK',
+                        data: [90, 75, 50, 30, 15, 10, 8],
+                        borderColor: '#FF6B6B',
+                        backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Agile (Genérico)',
+                        data: [0, 5, 30, 60, 75, 80, 90],
+                        borderColor: '#4ECDC4',
+                        backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'DevOps/CI-CD',
+                        data: [0, 0, 0, 5, 30, 65, 71],
+                        borderColor: '#A8E6CF',
+                        backgroundColor: 'rgba(168, 230, 207, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        min: 0,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Adoção (%)',
+                            font: { size: 13, weight: 'bold' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: { size: 13 },
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+
+        // 5. Gráfico Standish Chaos
+        new Chart(document.getElementById('chaosChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Cancelados', 'Custo 189%+', 'On-Time/Budget', 'Sucesso Completo'],
+                datasets: [{
+                    label: 'Standish 1995 (%)',
+                    data: [31.1, 52.7, 16.2, 9],
+                    backgroundColor: [
+                        '#FF6B6B',
+                        '#FFB84D',
+                        '#FFE66D',
+                        '#95E1D3'
+                    ],
+                    borderRadius: 5,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        max: 60,
+                        title: {
+                            display: true,
+                            text: 'Percentual (%)',
+                            font: { size: 13, weight: 'bold' }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
