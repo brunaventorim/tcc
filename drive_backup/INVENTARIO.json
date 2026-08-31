@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "data_criacao": "2026-08-31",
+    "ultima_atualizacao": "2026-08-31T19:46:15.336812",
+    "total_arquivos": 22,
+    "repositorio": "brunaventorim/tcc",
+    "branch": "dev"
+  },
+  "bibliografias": {
+    "pasta_drive_id": "1GVoL8RCh6vH5vta7vgcfW9NBjkXk1Q5x",
+    "pasta_drive_url": "https://drive.google.com/drive/folders/1GVoL8RCh6vH5vta7vgcfW9NBjkXk1Q5x",
+    "total": 10,
+    "arquivos": [
+      {
+        "id": "1ZfW0rhBHggre5WUsB2m4edzmm63YS0P9",
+        "nome": "1803.05969v1.pdf",
+        "tipo": "Research Paper",
+        "tamanho": "~240 KB",
+        "assunto": "Requisitos e Stakeholder Priority",
+        "relevancia": "Medium",
+        "status": "✅ Baixado"
+      },
+      {
+        "id": "1cf4VsVqzX--Zh8dgyVuQE4Hw-E1151E9",
+        "nome": "3687999.pdf",
+        "tipo": "Research Paper",
+        "tamanho": "~500 KB",
+        "assunto": "Agile & Project Management",
+        "relevancia": "Medium"
+      },
+      {
+        "id": "1DdS2d9T_IKwb8xHzfNKGUxlebqHqdXVO",
+        "nome": "chaos-report.pdf",
+        "tipo": "Historical Report",
+        "tamanho": "~1.5 MB",
+        "assunto": "Standish Chaos Report (1995)",
+        "relevancia": "⭐⭐⭐ CRÍTICA",
+        "nota": "Documento seminal que motivou o Manifesto Ágil"
+      },
+      {
+        "id": "1sFtReNohNdwmxGGNsYv4PAtLNMzIgOY4",
+        "nome": "2024-dora-accelerate-state-of-devops-report-ptbr.pdf",
+        "tipo": "Official Report",
+        "tamanho": "~10 MB",
+        "assunto": "DORA 2024 - Métricas e Performance",
+        "relevancia": "⭐⭐⭐ CRÍTICA",
+        "nota": "Essencial para Capítulo 1.4 e Análise Crítica"
+      },
+      {
+        "id": "1LimWHm4Lz_Y0WOw7VvetriwJmIHCfhpp",
+        "nome": "the-roi-of-devops-transformation-google-cloud-dora.pdf",
+        "tipo": "White Paper",
+        "tamanho": "~5 MB",
+        "assunto": "ROI DevOps",
+        "relevancia": "High",
+        "nota": "Justificativa econômica para transformação"
+      },
+      {
+        "id": "17Gse2J6eFoGQXAtI9DC-wgb9NpN1SEWH",
+        "nome": "2020-Scrum-Guide-PortugueseBR-3.0.pdf",
+        "tipo": "Official Guide",
+        "tamanho": "~2 MB",
+        "assunto": "Scrum Framework",
+        "relevancia": "⭐⭐⭐ CRÍTICA",
+        "nota": "Base teórica - Framework mais adotado"
+      },
+      {
+        "id": "16YGHCoqsDORs8uAyPB_BvYz_LtAA47HF",
+        "nome": "2025_abridged_state_of_ai_assisted_software_development_pt-br.pdf",
+        "tipo": "Official Report",
+        "tamanho": "~8 MB",
+        "assunto": "DORA 2025 - IA em Desenvolvimento",
+        "relevancia": "High",
+        "nota": "Tendência futura e 'IA como amplificador'"
+      },
+      {
+        "id": "1Fd-d8bn56binqoOCPzLtJpGY_SXdJkh8",
+        "nome": "Digital-ai-18th-State-of-Agile.pdf",
+        "tipo": "Annual Report",
+        "tamanho": "~5 MB",
+        "assunto": "State of Agile 2025",
+        "relevancia": "⭐⭐⭐ CRÍTICA",
+        "nota": "Taxa de adoção atual (Scrum 63%, DevOps 71%)"
+      },
+      {
+        "id": "1H2KHxVWQ8rb7Hzpx1kyPoKHJfk7HYKbd",
+        "nome": "NTTDATA_Agilidade_na_America_Latina_2024.pdf",
+        "tipo": "Regional Report",
+        "tamanho": "~3 MB",
+        "assunto": "NTT DATA - Contexto LATAM",
+        "relevancia": "⭐⭐⭐ CRÍTICA",
+        "nota": "Barreiras regionais (67% resistência à mudança)"
+      },
+      {
+        "id": "1aeG8bTKb9rEtWUput0wTKmVzkTJgLGQp",
+        "nome": "RE-SA-17th-Annual-State-Of-Agile-Report.pdf",
+        "tipo": "Annual Report",
+        "tamanho": "~4 MB",
+        "assunto": "State of Agile 2023",
+        "relevancia": "⭐⭐⭐ CRÍTICA",
+        "nota": "Paradoxo: 71% adoção vs 47% satisfação"
+      }
+    ]
+  },
+  "rascunhos": {
+    "pasta_drive_id": "1jK_seOpRdqdQMBqa9NfKEJNf-kPJ0icJ",
+    "pasta_drive_url": "https://drive.google.com/drive/folders/1jK_seOpRdqdQMBqa9NfKEJNf-kPJ0icJ",
+    "total": 12,
+    "documentos_principais": [
+      {
+        "id": "1pm_6QqpIVYCyY6d0QSezN6SDXJZ4occsq2K0xh1GYAI",
+        "nome": "TCC com template UERJ",
+        "tipo": "Google Docs",
+        "status": "Em desenvolvimento",
+        "ultima_edicao": "2026-08-31"
+      },
+      {
+        "id": "1CvJtdhL9zixDFxU7oPakoHJdaymbfNHhhmCYkpPB2jE",
+        "nome": "TCC CAP 1",
+        "tipo": "Google Docs",
+        "status": "Rascunho",
+        "ultima_edicao": "2026-08-31"
+      },
+      {
+        "id": "1zGWQhHY-pD0EYmGC0dpafT09WE5frl-UyGl1Rq7S4pg",
+        "nome": "TCC - Intro + Cap 1",
+        "tipo": "Google Docs",
+        "status": "Revisão necessária",
+        "ultima_edicao": "2026-08-31"
+      },
+      {
+        "id": "1YF8wnqc5Lo2el6K04_Ou_mKlZqPuuhWxMGocGDyTavc",
+        "nome": "Lógica da Monografia (Caps)",
+        "tipo": "Google Docs",
+        "status": "Estrutura",
+        "ultima_edicao": "2026-08-31"
+      },
+      {
+        "id": "19kvuf_W8mREZKUx0tglVkwTnYSjddwQgDjNIvI7tYcI",
+        "nome": "TCC - Versão Trabalhada 2026",
+        "tipo": "Google Docs",
+        "status": "Principal",
+        "ultima_edicao": "2026-08-31"
+      },
+      {
+        "id": "1A-b-av81u1AW_dif5DE8s_YPmkrc1wKgCALQ-4AU1lA",
+        "nome": "Fichamento dos Livros",
+        "tipo": "Google Docs",
+        "status": "Compilado",
+        "ultima_edicao": "2026-08-31"
+      }
+    ],
+    "fichamentos": [
+      {
+        "id": "176WvG2q3PQNp7wK1YWshX8mxXbt2gTDS",
+        "nome": "Fichamento_01_Manifesto_Agil",
+        "fonte": "Agile Manifesto (2001)",
+        "status": "✅ Completo"
+      },
+      {
+        "id": "1jLIpj5F3y7d5uieqdF27ig7zhzzObcwW",
+        "nome": "Fichamento_02_Scrum_Guide",
+        "fonte": "Scrum Guide 2020",
+        "status": "✅ Completo"
+      },
+      {
+        "id": "18p2SpxmOKzX5Z5kGQtxwg4QEuXtebDV6",
+        "nome": "Fichamento_03_Kanban_Anderson",
+        "fonte": "Kanban (Anderson & Reinertsen)",
+        "status": "✅ Completo"
+      },
+      {
+        "id": "1d-e991Dv7BSWZOLIjYQv-aixqN1BTd-Q",
+        "nome": "Fichamento_04_Lean_Inception_Caroli",
+        "fonte": "Lean Inception (Caroli)",
+        "status": "✅ Completo"
+      },
+      {
+        "id": "1bIgoapFuNuFLoHwWIftLko5OM74H0LZ0",
+        "nome": "Fichamento_05_Accelerate_Forsgren",
+        "fonte": "Accelerate (Forsgren et al.)",
+        "status": "✅ Completo"
+      },
+      {
+        "id": "1bouDUobcXTfj3qyvCk2RkIV6NvWDAA9K",
+        "nome": "Fichamento_06_Coaching_Agile_Teams",
+        "fonte": "Coaching Agile Teams (Adkins)",
+        "status": "✅ Completo"
+      }
+    ]
+  }
+}
