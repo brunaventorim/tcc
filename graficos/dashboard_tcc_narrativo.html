@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard TCC: Jornada das Metodologias Ágeis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .header h1 {
+            color: #1a3a52;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Seções */
+        .section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 5px solid #2c5aa0;
+        }
+
+        .section h2 {
+            color: #1a3a52;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-number {
+            background: #2c5aa0;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .section-subtitle {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+
+        /* Explicações */
+        .explanation {
+            background: #f0f4f8;
+            border-left: 4px solid #4a7ba7;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .explanation h3 {
+            color: #1a3a52;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .explanation p {
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .explanation ul {
+            margin-left: 20px;
+            color: #555;
+        }
+
+        .explanation li {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        /* DORA Metrics Details */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 20px;
+            border-top: 4px solid #2c5aa0;
+        }
+
+        .metric-name {
+            font-weight: bold;
+            color: #1a3a52;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .metric-description {
+            color: #666;
+            font-size: 0.85em;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .metric-example {
+            background: #e8f1f8;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #1a3a52;
+        }
+
+        .metric-example strong {
+            color: #2c5aa0;
+        }
+
+        /* Insights */
+        .insights-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .insight {
+            background: white;
+            border: 2px solid #8bafd4;
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .insight-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .insight-title {
+            font-weight: bold;
+            color: #1a3a52;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .insight-text {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Dois Gráficos Lado a Lado */
+        .chart-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .chart-column {
+            min-height: 400px;
+        }
+
+        .chart-column h3 {
+            color: #1a3a52;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .chart-column .chart-container {
+            margin-bottom: 0;
+        }
+
+        /* Footnote */
+        .footnote {
+            background: #f5f5f5;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            margin-top: 40px;
+            font-size: 0.85em;
+            color: #999;
+            text-align: center;
+        }
+
+        .footnote a {
+            color: #2c5aa0;
+            text-decoration: none;
+        }
+
+        .footnote a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎯 Jornada das Metodologias Ágeis</h1>
+            <p>Uma análise narrativa da evolução do desenvolvimento de software: do Chaos Report (1995) aos dias atuais (2025)</p>
+        </div>
+
+        <!-- SEÇÃO 1: O PROBLEMA (CHAOS REPORT) -->
+        <div class="section">
+            <h2>
+                <span class="section-number">1</span>
+                O Problema: Waterfall em Crise
+            </h2>
+            <p class="section-subtitle">Standish Chaos Report (1995) - O ponto de virada que mudou tudo</p>
+
+            <div class="chart-container">
+                <canvas id="chaosChart"></canvas>
+            </div>
+
+            <div class="explanation">
+                <h3>📊 O que esse gráfico mostra:</h3>
+                <p>Em 1995, o Standish Group analisou <strong>175.000 projetos de IT</strong> nos EUA com orçamento total de $250 bilhões anuais. Os resultados foram chocantes:</p>
+                <ul>
+                    <li><strong>31.1%</strong> dos projetos eram cancelados antes de conclusão</li>
+                    <li><strong>52.7%</strong> excediam o orçamento em mais de 189%</li>
+                    <li>Apenas <strong>16.2%</strong> eram entregues on-time e on-budget</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Impacto:</strong> Este relatório motivou a criação do Manifesto Ágil (2001) e mudou fundamentalmente como o software é desenvolvido.</p>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 2: A EVOLUÇÃO HISTÓRICA -->
+        <div class="section">
+            <h2>
+                <span class="section-number">2</span>
+                A Evolução: 30 Anos de Transformação
+            </h2>
+            <p class="section-subtitle">Taxa de sucesso de projetos: Waterfall → Agile → DevOps (1995-2025)</p>
+
+            <div class="chart-container">
+                <canvas id="evolutionChart"></canvas>
+            </div>
+
+            <div class="explanation">
+                <h3>📈 O que esse gráfico mostra:</h3>
+                <p>A linha temporal revela como as metodologias evoluíram em resposta aos problemas identificados:</p>
+                <ul>
+                    <li><strong>1995-2001:</strong> Waterfall sofre queda contínua (90% → 35% de sucesso)</li>
+                    <li><strong>2001-2015:</strong> Agile cresce explosivamente após Manifesto (5% → 70%)</li>
+                    <li><strong>2015-2025:</strong> DevOps emerge como complemento (35% → 71% de adoção)</li>
+                    <li><strong>Hoje:</strong> 83% de sucesso com Agile + DevOps (vs 8% com Waterfall)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 3: ADOÇÃO ATUAL -->
+        <div class="section">
+            <h2>
+                <span class="section-number">3</span>
+                Panorama Atual: Quais Metodologias Ganham?
+            </h2>
+            <p class="section-subtitle">State of Agile Report 2025 - Taxa de adoção por framework (n=788 respondentes globalmente)</p>
+
+            <div class="chart-row">
+                <div class="chart-column">
+                    <h3>Metodologias Ágeis</h3>
+                    <div class="chart-container">
+                        <canvas id="adoptionAgileChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-column">
+                    <h3>Prática Complementar</h3>
+                    <div class="chart-container">
+                        <canvas id="devopsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h3>🎯 O que esses gráficos mostram:</h3>
+                <p><strong>Esquerda (Metodologias):</strong> Scrum domina (63%), mas existem alternativas. Kanban cresce (28%), SAFe para escala (26%).</p>
+                <p><strong>Direita (Prática de Engenharia):</strong> DevOps/CI-CD é adotado por 71% - <strong>não é uma metodologia, mas a implementação técnica que torna Agile viável.</strong></p>
+                <p style="margin-top: 10px; color: #c00;"><strong>⚠️ Insight crítico:</strong> Metodologia ≠ Execução. Uma organização pode adotar Scrum (metodologia) mas sem DevOps (execução), a entrega continua lenta.</p>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 4: O PARADOXO -->
+        <div class="section">
+            <h2>
+                <span class="section-number">4</span>
+                O Paradoxo: Adoção ≠ Satisfação
+            </h2>
+            <p class="section-subtitle">Por que 71% das empresas dizem que são ágeis, mas apenas 47% estão satisfeitas?</p>
+
+            <div class="chart-container">
+                <canvas id="paradoxChart"></canvas>
+            </div>
+
+            <div class="explanation">
+                <h3>⚡ O que esse gráfico mostra:</h3>
+                <p>Uma lacuna de <strong>24 pontos percentuais</strong> entre declarar adoção (71%) e estar realmente satisfeito (47%).</p>
+                <ul>
+                    <li><strong>71%</strong> das organizações: "Usamos Agile/Scrum"</li>
+                    <li><strong>47%</strong> das organizações: "Estamos satisfeitos com os resultados"</li>
+                    <li><strong>34%</strong> das organizações: "Enfrentamos barreiras substanciais"</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>O que causa isso?</strong> Fenômeno chamado "Agilidade de Fachada" - conformidade com rituais (standups, sprints) sem mudança cultural real. Scrum Guide é seguido, mas segurança psicológica, autonomia e engenharia interna não melhoram.</p>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 5: DORA - AS MÉTRICAS QUE IMPORTAM -->
+        <div class="section">
+            <h2>
+                <span class="section-number">5</span>
+                DORA: Métricas Reais que Medem Performance
+            </h2>
+            <p class="section-subtitle">Google Cloud + NIST (2024-2025) - Análise de 39.000+ profissionais globalmente</p>
+
+            <div class="chart-container">
+                <canvas id="doraChart"></canvas>
+            </div>
+
+            <!-- Cards Explicativos -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-name">📦 Deployment Frequency</div>
+                    <div class="metric-description">Com que frequência você coloca código em produção?</div>
+                    <div class="metric-example">
+                        <strong>Elite:</strong> Múltiplas vezes/dia<br>
+                        <strong>High:</strong> 1x/semana<br>
+                        <strong>Low:</strong> Raro (mês)
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-name">⏱️ Lead Time for Changes</div>
+                    <div class="metric-description">Quanto tempo demora do commit ao código em produção?</div>
+                    <div class="metric-example">
+                        <strong>Elite:</strong> &lt;1 hora<br>
+                        <strong>High:</strong> 1-7 dias<br>
+                        <strong>Low:</strong> &gt;1 mês
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-name">🔧 MTTR (Mean Time to Recovery)</div>
+                    <div class="metric-description">Se algo quebra em produção, quanto tempo para corrigir?</div>
+                    <div class="metric-example">
+                        <strong>Elite:</strong> &lt;1 hora<br>
+                        <strong>High:</strong> 1-24 horas<br>
+                        <strong>Low:</strong> &gt;1 semana
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-name">❌ Change Failure Rate</div>
+                    <div class="metric-description">Qual % de deployments causa problemas em produção?</div>
+                    <div class="metric-example">
+                        <strong>Elite:</strong> 0-15%<br>
+                        <strong>High:</strong> 16-30%<br>
+                        <strong>Low:</strong> &gt;46%
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h3>🎯 Por que DORA importa para seu TCC:</h3>
+                <p><strong>Seu argumento central:</strong> "Adoção de Agile não gera resultado automaticamente."</p>
+                <p><strong>DORA prova isso:</strong> Olhe para qualquer organização que diz "somos ágeis" mas tem deployment 1x/mês e MTTR de 2 semanas. Ela está seguindo Scrum (adoção declarada) mas com performance de Low performer (realidade mensurável).</p>
+                <p style="margin-top: 10px;"><strong>A diferença?</strong> Cultura + Engenharia. Elite performers têm:</p>
+                <ul style="margin-left: 20px;">
+                    <li>Segurança psicológica (podem falhar sem punição)</li>
+                    <li>Automação de testes e deploy</li>
+                    <li>Liderança que suporta experimentos</li>
+                    <li>Engenharia interna de qualidade</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 6: INSIGHTS FINAIS -->
+        <div class="section">
+            <h2>
+                <span class="section-number">6</span>
+                Insights: O Que Tudo Isso Significa?
+            </h2>
+            <p class="section-subtitle">Conclusões baseadas em dados de 30 anos de pesquisa</p>
+
+            <div class="insights-container">
+                <div class="insight">
+                    <div class="insight-icon">🚀</div>
+                    <div class="insight-title">Metodologia Não É Solução</div>
+                    <div class="insight-text">
+                        Escolher Scrum vs. Kanban importa menos que você pensa. O que importa: cultura organizacional que suporta mudança, segurança psicológica, e engenharia de qualidade.
+                    </div>
+                </div>
+
+                <div class="insight">
+                    <div class="insight-icon">📊</div>
+                    <div class="insight-title">Métricas Reais Falam Mais</div>
+                    <div class="insight-text">
+                        Não confie em "somos ágeis". Peça: "Qual é seu deployment frequency? Lead time? MTTR?". As respostas revelam a verdade por trás do ritual.
+                    </div>
+                </div>
+
+                <div class="insight">
+                    <div class="insight-icon">🌱</div>
+                    <div class="insight-title">DevOps É a Peça Que Faltava</div>
+                    <div class="insight-text">
+                        Scrum organiza o desenvolvimento (equipes, sprints). DevOps resolve o próximo problema: como levar código rápido e seguro a produção. Ambas são necessárias.
+                    </div>
+                </div>
+
+                <div class="insight">
+                    <div class="insight-icon">🏢</div>
+                    <div class="insight-title">Brasil/LATAM Tem Desafios Únicos</div>
+                    <div class="insight-text">
+                        NTT DATA (2024): 67% das organizações LATAM enfrentam resistência à mudança (vs 43% global). Treinamento inadequado (47%) e liderança não preparada (38%) são barreiras regionais.
+                    </div>
+                </div>
+
+                <div class="insight">
+                    <div class="insight-icon">⚙️</div>
+                    <div class="insight-title">Escala É o Verdadeiro Desafio</div>
+                    <div class="insight-text">
+                        Scrum funciona bem em times de 8-10 pessoas (83% satisfação). Em empresas com 500+ pessoas, satisfação cai para 22%. SAFe tenta resolver, mas ainda tem limite (~45% satisfação).
+                    </div>
+                </div>
+
+                <div class="insight">
+                    <div class="insight-icon">🤖</div>
+                    <div class="insight-title">IA É Amplificador, Não Solução</div>
+                    <div class="insight-text">
+                        DORA 2025: IA em desenvolvimento amplifica o que já existe. Organizações fracas usam IA de forma ineficiente. Organizações fortes (com DevOps bom) aproveitam 3x melhor.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footnote">
+            <p><strong>Fontes:</strong> Standish Chaos Report (1995) | State of Agile Reports 2023-2025 (Digital.ai) | DORA Accelerate 2024-2025 (Google Cloud) | NTT DATA Agilidade LATAM 2024</p>
+            <p>
+                Validação de dados: <a href="https://github.com/brunaventorim/tcc/blob/dev/graficos/VALIDACAO_DADOS_DASHBOARD.md" target="_blank">Ver documento de validação</a>
+            </p>
+            <p style="margin-top: 20px; font-size: 0.8em;">Criado para: Monografia TCC - UERJ | Tema: Estudo das Metodologias de Desenvolvimento de Software Mais Adotadas | 2026</p>
+        </div>
+    </div>
+
+    <!-- Scripts de Gráficos -->
+    <script>
+        // Paleta de cores acadêmica
+        const colors = {
+            primary: '#1a3a52',
+            secondary: '#2c5aa0',
+            accent1: '#4a7ba7',
+            accent2: '#6d95b8',
+            accent3: '#8bafd4',
+            success: '#27ae60',
+            warning: '#e67e22',
+            danger: '#e74c3c',
+            neutral: '#95a5a6'
+        };
+
+        // 1. CHAOS REPORT
+        const chaosCtx = document.getElementById('chaosChart').getContext('2d');
+        new Chart(chaosCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Cancelados', 'Orçamento\nExcedido (+189%)', 'On-time &\nOn-budget'],
+                datasets: [{
+                    label: 'Taxa (%)',
+                    data: [31.1, 52.7, 16.2],
+                    backgroundColor: [colors.danger, colors.warning, colors.success],
+                    borderRadius: 4,
+                    borderSkipped: false,
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: false }
+                },
+                scales: {
+                    x: {
+                        max: 60,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+
+        // 2. EVOLUTION TIMELINE
+        const evolutionCtx = document.getElementById('evolutionChart').getContext('2d');
+        new Chart(evolutionCtx, {
+            type: 'line',
+            data: {
+                labels: ['1995', '2000', '2005', '2010', '2015', '2020', '2025'],
+                datasets: [
+                    {
+                        label: 'Waterfall',
+                        data: [90, 80, 60, 35, 20, 12, 8],
+                        borderColor: colors.danger,
+                        backgroundColor: 'rgba(231, 76, 60, 0.05)',
+                        tension: 0.3,
+                        borderWidth: 2.5,
+                        pointRadius: 4,
+                        fill: true
+                    },
+                    {
+                        label: 'Agile',
+                        data: [0, 5, 25, 55, 70, 75, 83],
+                        borderColor: colors.success,
+                        backgroundColor: 'rgba(39, 174, 96, 0.05)',
+                        tension: 0.3,
+                        borderWidth: 2.5,
+                        pointRadius: 4,
+                        fill: true
+                    },
+                    {
+                        label: 'DevOps',
+                        data: [0, 0, 0, 8, 35, 65, 71],
+                        borderColor: colors.secondary,
+                        backgroundColor: 'rgba(44, 90, 160, 0.05)',
+                        tension: 0.3,
+                        borderWidth: 2.5,
+                        pointRadius: 4,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true, padding: 20 }
+                    }
+                },
+                scales: {
+                    y: {
+                        max: 100,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+
+        // 3. ADOÇÃO AGILE
+        const adoptionCtx = document.getElementById('adoptionAgileChart').getContext('2d');
+        new Chart(adoptionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Scrum (63%)', 'Kanban (28%)', 'SAFe (26%)', 'XP (12%)', 'Outros (15%)'],
+                datasets: [{
+                    data: [63, 28, 26, 12, 15],
+                    backgroundColor: [
+                        colors.secondary,
+                        colors.accent2,
+                        colors.accent3,
+                        colors.neutral,
+                        '#c0c0c0'
+                    ],
+                    borderColor: white,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true, padding: 15 }
+                    }
+                }
+            }
+        });
+
+        // 4. DEVOPS
+        const devopsCtx = document.getElementById('devopsChart').getContext('2d');
+        new Chart(devopsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['DevOps/CI-CD', 'Sem DevOps'],
+                datasets: [{
+                    data: [71, 29],
+                    backgroundColor: [colors.secondary, '#e0e0e0'],
+                    borderColor: 'white',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true, padding: 15 }
+                    }
+                }
+            }
+        });
+
+        // 5. O PARADOXO
+        const paradoxCtx = document.getElementById('paradoxChart').getContext('2d');
+        new Chart(paradoxCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Declaram Usar\nAgile', 'Satisfeitos com\nResultados', 'Enfrentam\nBarreiras'],
+                datasets: [{
+                    label: 'Percentual (%)',
+                    data: [71, 47, 34],
+                    backgroundColor: [colors.secondary, colors.success, colors.warning],
+                    borderRadius: 4,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        max: 80,
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            }
+        });
+
+        // 6. DORA METRICS
+        const doraCtx = document.getElementById('doraChart').getContext('2d');
+        new Chart(doraCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Deployment\nFrequency', 'Lead Time', 'MTTR', 'Change Failure\nRate'],
+                datasets: [
+                    {
+                        label: 'Elite Performers',
+                        data: [95, 95, 95, 95],
+                        borderColor: colors.success,
+                        backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                        borderWidth: 2.5,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'High Performers',
+                        data: [75, 75, 75, 75],
+                        borderColor: colors.secondary,
+                        backgroundColor: 'rgba(44, 90, 160, 0.1)',
+                        borderWidth: 2.5,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Low Performers',
+                        data: [30, 30, 30, 30],
+                        borderColor: colors.danger,
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        borderWidth: 2.5,
+                        pointRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true, padding: 20 }
+                    }
+                },
+                scales: {
+                    r: {
+                        max: 100,
+                        ticks: { display: false },
+                        gridLines: { color: '#e0e0e0' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
