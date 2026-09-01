@@ -1,22 +1,5 @@
 # 📄 TCC COMPLETO REESCRITO: INTRODUÇÃO + CAP 1 + CAP 2
-**Status:** Pronto para copiar/colar no Google Docs  
-**Validação:** Todas as reescritas checadas contra fontes  
 **Data:** 31/08/2026
-
----
-
-## ⚠️ INSTRUÇÕES DE USO
-
-Este documento contém o texto COMPLETO reescrito de:
-- ✅ INTRODUÇÃO (com ponte histórica e definição expandida)
-- ✅ CAPÍTULO 1 (com 5 pontos reescritos/expandidos)
-- ✅ CAPÍTULO 2 (com 3 elementos novos)
-
-**Como usar:**
-1. Copie cada seção (Intro, Cap 1, Cap 2)
-2. Vá ao seu Google Docs
-3. Cole sobre o texto atual, substituindo completamente
-4. Revise rapidamente para garantir formatação
 
 ---
 
