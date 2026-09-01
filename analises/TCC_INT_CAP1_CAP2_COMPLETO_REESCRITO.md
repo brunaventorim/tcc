@@ -34,7 +34,7 @@ O próprio relatório expõe a fissura. Embora 75% das organizações reconheça
 
 Esse descompasso custa caro. Organizações que adotam o ágil sem mexer na cultura que o sustenta seguem convivendo com entregas atrasadas, times desmotivados e processos que existem no papel e não na prática. Entender por que isso acontece, e o que separa quem pratica agilidade de quem apenas a declara, interessa diretamente a gestores, líderes técnicos e profissionais que enfrentam esse cenário todos os dias. Vale notar que boa parte do material disponível sobre o tema se dedica a ensinar como adotar métodos ágeis; bem menos investiga por que tantas adoções não entregam o que prometem. É nessa lacuna menos explorada que o trabalho se posiciona. A experiência prática da autora em ambientes de desenvolvimento reforçou a pertinência da questão: o que os dados mostram em escala, o cotidiano confirma no detalhe. É dessa contradição que parte a pergunta central deste trabalho: por que a distância entre adotar as metodologias ágeis e colher seus resultados persiste, mesmo depois que os frameworks amadureceram e as evidências de desempenho se tornaram públicas?
 
-Diante disso, este trabalho analisa as metodologias de desenvolvimento de software mais adotadas no mercado de tecnologia, sua origem, evolução e aplicação prática, buscando identificar os fatores que determinam se a adoção gera resultado real ou apenas aparência de transformação.
+Diante disso, este trabalho examina as metodologias de desenvolvimento de software mais adotadas no mercado de tecnologia. Através dessa investigação, revelou-se uma contradição fundamental: enquanto as organizações declaram maciçamente adotar frameworks ágeis (93% utilizam Scrum), os indicadores objetivos de desempenho mostram um quadro heterogêneo e frequentemente distante das promessas dos frameworks. Essa contradição estrutura o trabalho: os capítulos iniciais estudam os frameworks e sua evolução; os capítulos subsequentes investigam por que o gap entre adoção e resultado persiste.
 
 Para isso, foram estabelecidos os seguintes objetivos específicos:
 
@@ -162,7 +162,9 @@ O significado prático dessa independência é que **a agilidade de fachada vive
 
 # 2 METODOLOGIA (PROCEDIMENTOS DE PESQUISA)
 
-Este capítulo descreve os procedimentos metodológicos que orientaram o desenvolvimento desta pesquisa, detalhando sua classificação quanto à natureza, abordagem, objetivo e procedimentos técnicos adotados, bem como as fontes de dados selecionadas e as limitações metodológicas explícitas que circunscrevem o escopo dos achados.
+Este capítulo descreve como esta pesquisa estuda as metodologias mais adotadas. Durante essa investigação, utilizou-se abordagem qualitativa que permite não apenas DESCREVER os frameworks, mas ANALISAR CRITICAMENTE o gap entre sua prescrição teórica e sua implementação prática nas organizações. A escolha metodológica, portanto, é inseparável do objetivo central: a pesquisa qualitativa é apropriada porque o fenômeno investigado não pode ser reduzido a medições de variáveis isoladas — exige compreensão interpretativa de por que o gap persiste mesmo quando evidências de seu custo se tornaram públicas.
+
+Os procedimentos metodológicos que orientaram o desenvolvimento desta pesquisa são detalhados adiante, incluindo sua classificação quanto à natureza, abordagem, objetivo e procedimentos técnicos adotados, bem como as fontes de dados selecionadas e as limitações metodológicas explícitas que circunscrevem o escopo dos achados.
 
 ## 2.1 Natureza do Estudo: Classificação Metodológica
 
@@ -231,6 +233,12 @@ Esta pesquisa opera dentro de limitações explícitas que devem ser compreendid
 (5) **ANÁLISE TEMPORALMENTE LIMITADA**: O trabalho cobre 2001-2024 mas concentra análise de dados em 2024. Não captura possíveis transformações em andamento que ainda não se refletiram em relatórios públicos. Capturas futuras poderão revelar mudanças que não são visíveis em 2024.
 
 Dessas limitações decorre que as conclusões desta pesquisa descrevem principalmente a **REALIDADE DECLARADA** do mercado de tecnologia (o que organizações dizem fazer), não necessariamente a realidade vivida dentro de cada organização (o que organizações realmente fazem dia a dia). Mas essa limitação é também a delimitação proposital: a pesquisa pergunta "por que há gap entre o que se DECLARA e o que se REALIZA", e trabalhar com dados declarados é apropriado para essa pergunta específica. A contribuição desta pesquisa é precisamente mapear e explicar esse gap, não negá-lo.
+
+---
+
+## 📌 PONTE PARA O CAPÍTULO 3
+
+Tendo estudado as principais metodologias adotadas (Capítulos 1-2), o capítulo seguinte desloca a análise para a realidade de sua implementação. Se os capítulos anteriores responderam "quais são os frameworks?" e "como estudá-los?", o capítulo 3 pergunta: "como esses frameworks são REALMENTE implementados nas organizações, e o que os dados de performance revelam sobre essa implementação?" É nesse confronto entre prescrição teórica (o que os frameworks dizem) e realidade observável (o que as métricas documentam) que o fenômeno de agilidade de fachada se torna empiricamente tangível.
 
 ---
 
