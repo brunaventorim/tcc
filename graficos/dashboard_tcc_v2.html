@@ -1,0 +1,806 @@
+<title>Agilidade de Fachada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+<style>
+  :root {
+    --bg:          #080f1a;
+    --surface:     #0f1a2e;
+    --surface-2:   #142035;
+    --border:      #1e3050;
+    --text:        #dde9ff;
+    --text-muted:  #6a8ab5;
+    --text-dim:    #3a5580;
+    --accent:      #4d94ff;
+    --accent-dim:  rgba(77,148,255,.12);
+    --danger:      #ff4d4d;
+    --danger-dim:  rgba(255,77,77,.12);
+    --success:     #1ecc8a;
+    --success-dim: rgba(30,204,138,.12);
+    --warn:        #f5a623;
+    --warn-dim:    rgba(245,166,35,.12);
+    --purple:      #c850ff;
+    --purple-dim:  rgba(200,80,255,.12);
+    --teal:        #00d4c8;
+    --teal-dim:    rgba(0,212,200,.12);
+    --body-font:   'IBM Plex Sans', system-ui, sans-serif;
+    --mono-font:   'IBM Plex Mono', 'Courier New', monospace;
+    --r:           6px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg:#f0f4fb; --surface:#fff; --surface-2:#e8f0ff;
+      --border:#c8d8f0; --text:#0f1e38; --text-muted:#4a6a98; --text-dim:#8aabcc;
+      --accent-dim:rgba(77,148,255,.08); --danger-dim:rgba(255,77,77,.08);
+      --success-dim:rgba(30,204,138,.08); --warn-dim:rgba(245,166,35,.08);
+      --purple-dim:rgba(200,80,255,.08); --teal-dim:rgba(0,212,200,.08);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#080f1a; --surface:#0f1a2e; --surface-2:#142035;
+    --border:#1e3050; --text:#dde9ff; --text-muted:#6a8ab5; --text-dim:#3a5580;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--body-font);font-size:15px;line-height:1.6;min-height:100vh}
+
+  /* ── LAYOUT ── */
+  .app{display:grid;grid-template-rows:auto 1fr}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:100}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand-chip{border:1.5px solid var(--accent);border-radius:4px;padding:3px 7px;font-family:var(--mono-font);font-size:11px;font-weight:700;color:var(--accent);letter-spacing:-0.5px}
+  .brand-name{font-family:var(--mono-font);font-size:13px;font-weight:600;color:var(--text)}
+  .brand-name span{color:var(--text-muted);font-weight:400}
+  .topbar-meta{font-family:var(--mono-font);font-size:10px;color:var(--text-dim);letter-spacing:.5px}
+  .main{display:flex}
+
+  /* ── SIDEBAR ── */
+  .sidebar{width:210px;background:var(--surface);border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto}
+  .nav-section{padding:0 14px;margin-bottom:20px}
+  .nav-label{font-family:var(--mono-font);font-size:9px;font-weight:700;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:5px;padding:0 7px}
+  .nav-btn{display:flex;align-items:center;gap:8px;padding:7px;border-radius:var(--r);font-size:13px;color:var(--text-muted);cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:.15s}
+  .nav-btn:hover{background:var(--accent-dim);color:var(--text)}
+  .nav-btn.active{background:var(--accent-dim);color:var(--accent);font-weight:500}
+  .nav-dot{width:6px;height:6px;border-radius:50%;background:var(--text-dim);flex-shrink:0;transition:.15s}
+  .nav-btn.active .nav-dot{background:var(--accent)}
+
+  /* ── CONTENT ── */
+  .content{flex:1;padding:28px;overflow:hidden;max-width:1160px}
+  .page{display:none}
+  .page.active{display:block}
+
+  /* ── SECTION HEADER ── */
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+  .sec-eye{font-family:var(--mono-font);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+  .sec-title{font-size:21px;font-weight:600;color:var(--text);line-height:1.3;text-wrap:balance}
+  .sec-source{font-family:var(--mono-font);font-size:10px;color:var(--text-dim);text-align:right;line-height:1.5}
+
+  /* ── CARD ── */
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px}
+  .card-title{font-family:var(--mono-font);font-size:10.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+
+  /* ── GRID ── */
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
+  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+  .full{grid-column:1/-1}
+  .mb{margin-bottom:14px}
+  @media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr 1fr}.sidebar{display:none}.content{padding:16px}}
+  @media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+  /* ── STAT ── */
+  .stat{padding:18px;position:relative;overflow:hidden}
+  .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .stat.accent::before{background:var(--accent)}
+  .stat.danger::before{background:var(--danger)}
+  .stat.success::before{background:var(--success)}
+  .stat.warn::before{background:var(--warn)}
+  .stat.purple::before{background:var(--purple)}
+  .stat.teal::before{background:var(--teal)}
+  .stat-val{font-family:var(--mono-font);font-size:40px;font-weight:700;line-height:1;margin-bottom:5px;font-variant-numeric:tabular-nums}
+  .stat.accent  .stat-val{color:var(--accent)}
+  .stat.danger  .stat-val{color:var(--danger)}
+  .stat.success .stat-val{color:var(--success)}
+  .stat.warn    .stat-val{color:var(--warn)}
+  .stat.purple  .stat-val{color:var(--purple)}
+  .stat.teal    .stat-val{color:var(--teal)}
+  .stat-lbl{font-size:13px;color:var(--text-muted);line-height:1.4;margin-bottom:3px}
+  .stat-src{font-family:var(--mono-font);font-size:10px;color:var(--text-dim)}
+
+  /* ── CHART ── */
+  .chart-wrap{position:relative;width:100%}
+  .chart-wrap canvas{width:100%!important}
+
+  /* ── CONCEPT BOX ── */
+  .concept{background:var(--surface-2);border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 var(--r) var(--r) 0;margin:12px 0;font-size:13px;color:var(--text-muted);line-height:1.6}
+  .concept strong{color:var(--text)}
+  .concept.danger{border-left-color:var(--danger)}
+  .concept.success{border-left-color:var(--success)}
+  .concept.warn{border-left-color:var(--warn)}
+  .concept.purple{border-left-color:var(--purple)}
+  .concept.teal{border-left-color:var(--teal)}
+
+  /* ── WHAT THIS CHART SHOWS ── */
+  .chart-explain{font-size:12.5px;color:var(--text-muted);line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+  .chart-explain strong{color:var(--text)}
+  .footnote{font-family:var(--mono-font);font-size:10px;color:var(--text-dim);margin-top:10px;line-height:1.5}
+
+  /* ── PARADOX BANNER ── */
+  .paradox-banner{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:14px;position:relative;overflow:hidden}
+  .paradox-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--purple),var(--danger))}
+  .gap-visual{display:flex;height:58px;border-radius:4px;overflow:hidden;margin:16px 0}
+  .gap-decl{background:rgba(77,148,255,.18);border:1px solid rgba(77,148,255,.3);border-right:none;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;flex:93}
+  .gap-impl{background:rgba(30,204,138,.18);border:1px solid rgba(30,204,138,.3);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;flex:38}
+  .gap-void{background:repeating-linear-gradient(45deg,var(--danger-dim),var(--danger-dim) 4px,transparent 4px,transparent 12px);border:1px solid rgba(255,77,77,.2);border-left:none;flex:55;position:relative;display:flex;align-items:center;justify-content:center;font-family:var(--mono-font);font-size:10px;font-weight:700;color:var(--danger);letter-spacing:1.5px}
+  .gap-n{font-family:var(--mono-font);font-size:20px;font-weight:700}
+  .gap-decl .gap-n{color:var(--accent)}
+  .gap-impl .gap-n{color:var(--success)}
+  .gap-sub{font-family:var(--mono-font);font-size:8.5px;letter-spacing:.5px;color:var(--text-muted)}
+
+  /* ── BADGE ── */
+  .badge{display:inline-block;padding:2px 7px;border-radius:3px;font-family:var(--mono-font);font-size:11px;font-weight:600}
+  .b-elite{background:var(--success-dim);color:var(--success);border:1px solid rgba(30,204,138,.3)}
+  .b-high{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(77,148,255,.3)}
+  .b-med{background:var(--warn-dim);color:var(--warn);border:1px solid rgba(245,166,35,.3)}
+  .b-low{background:var(--danger-dim);color:var(--danger);border:1px solid rgba(255,77,77,.3)}
+
+  /* ── TABLE ── */
+  .tbl{width:100%;border-collapse:collapse;font-size:13px}
+  .tbl th{background:var(--surface-2);font-family:var(--mono-font);font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);padding:10px 12px;text-align:left;border-bottom:1px solid var(--border)}
+  .tbl td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text-muted);vertical-align:top;line-height:1.4}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl tr:hover td{background:var(--accent-dim)}
+  .ok{color:var(--success);font-weight:500}
+  .bad{color:var(--danger);font-weight:500}
+  .mid{color:var(--warn);font-weight:500}
+  .tbl-wrap{overflow-x:auto}
+
+  /* ── TAXONOMY ── */
+  .tax-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+  .tax-box{padding:14px;border-radius:var(--r);border:1px solid var(--border)}
+  .tax-box.meth{border-top:3px solid var(--accent);background:var(--accent-dim)}
+  .tax-box.scale{border-top:3px solid var(--teal);background:var(--teal-dim)}
+  .tax-box.devops{border-top:3px solid var(--warn);background:var(--warn-dim)}
+  .tax-label{font-family:var(--mono-font);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+  .tax-box.meth .tax-label{color:var(--accent)}
+  .tax-box.scale .tax-label{color:var(--teal)}
+  .tax-box.devops .tax-label{color:var(--warn)}
+  .tax-items{font-size:13px;color:var(--text-muted);line-height:1.7}
+  .tax-desc{font-size:12px;color:var(--text-dim);margin-top:8px;line-height:1.5}
+
+  /* ── BARRIERS ── */
+  .bar-row{display:grid;grid-template-columns:130px 1fr 44px;align-items:center;gap:10px;margin-bottom:9px}
+  .bar-name{font-size:13px;color:var(--text-muted)}
+  .bar-track{height:7px;background:var(--surface-2);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+  .bar-fill{height:100%;border-radius:4px;background:var(--danger);transition:width 1s ease-out;width:0}
+  .bar-pct{font-family:var(--mono-font);font-size:12px;font-weight:600;color:var(--danger);text-align:right;font-variant-numeric:tabular-nums}
+
+  /* ── TIMELINE ── */
+  .timeline{position:relative;padding-left:22px}
+  .timeline::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:1px;background:var(--border)}
+  .tl-item{position:relative;margin-bottom:24px}
+  .tl-item::before{content:'';position:absolute;left:-19px;top:5px;width:8px;height:8px;border-radius:50%;border:1.5px solid var(--accent);background:var(--bg)}
+  .tl-year{font-family:var(--mono-font);font-size:10px;font-weight:700;color:var(--accent);letter-spacing:.5px;margin-bottom:2px}
+  .tl-h{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px}
+  .tl-p{font-size:13px;color:var(--text-muted);line-height:1.5}
+
+  /* ── DORA GRID ── */
+  .dora-grid{display:grid;grid-template-columns:auto repeat(4,1fr);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+  .dc{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+  .dc:last-child{border-right:none}
+  .dr:last-child .dc{border-bottom:none}
+  .dr{display:contents}
+  .dh{background:var(--surface-2);font-family:var(--mono-font);font-size:9.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted)}
+  .dm{color:var(--text-muted);font-size:12px}
+
+  ::-webkit-scrollbar{width:5px;height:5px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media(prefers-reduced-motion:reduce){.bar-fill{transition:none}}
+</style>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-chip">AF</div>
+      <div class="brand-name">Agilidade de Fachada <span>/ Dashboard Empírico</span></div>
+    </div>
+    <div class="topbar-meta">TCC · UERJ · Dados: NTT DATA · DORA · Digital.ai · Chaos Report</div>
+  </header>
+
+  <div class="main">
+    <nav class="sidebar">
+      <div class="nav-section">
+        <div class="nav-label">Análise</div>
+        <button class="nav-btn active" onclick="nav('paradox',this)"><span class="nav-dot"></span>O Paradoxo Central</button>
+        <button class="nav-btn" onclick="nav('taxonomy',this)"><span class="nav-dot"></span>Tipos de Framework</button>
+        <button class="nav-btn" onclick="nav('adoption',this)"><span class="nav-dot"></span>Adoção por Framework</button>
+        <button class="nav-btn" onclick="nav('performance',this)"><span class="nav-dot"></span>Performance DORA</button>
+        <button class="nav-btn" onclick="nav('correlation',this)"><span class="nav-dot"></span>Declaração vs Real</button>
+        <button class="nav-btn" onclick="nav('barriers',this)"><span class="nav-dot"></span>Barreiras</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">Contexto</div>
+        <button class="nav-btn" onclick="nav('history',this)"><span class="nav-dot"></span>1994 vs 2024</button>
+        <button class="nav-btn" onclick="nav('definition',this)"><span class="nav-dot"></span>Definição Empírica</button>
+      </div>
+    </nav>
+
+    <main class="content">
+
+      <!-- ═══════════════════════════════════════
+           PARADOXO
+      ═══════════════════════════════════════ -->
+      <section class="page active" id="page-paradox">
+        <div class="sec-head">
+          <div>
+            <div class="sec-eye">01 · Paradoxo Central</div>
+            <h1 class="sec-title">Adoção declarada vs implementação real</h1>
+          </div>
+          <div class="sec-source">NTT DATA (2024)<br>América Latina · n=512</div>
+        </div>
+
+        <div class="paradox-banner">
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:2px"><strong style="color:var(--text)">O problema central do TCC:</strong> 93% das organizações declaram usar Scrum, mas apenas 38% acreditam ter construído cultura ágil de forma consistente. O gap de 55 pontos percentuais não é um atraso — é o sinal de que a maioria está adotando a <em>forma</em> sem transformar a <em>substância</em>.</p>
+          <div class="gap-visual" role="img" aria-label="93% declaração vs 38% implementação, gap de 55pp">
+            <div class="gap-decl"><div class="gap-n">93%</div><div class="gap-sub">DECLARAÇÃO</div></div>
+            <div class="gap-impl"><div class="gap-n">38%</div><div class="gap-sub">IMPLEMENTAÇÃO</div></div>
+            <div class="gap-void">GAP · 55 pp</div>
+          </div>
+          <div class="concept purple">
+            <strong>Por que esse gap importa:</strong> Quando quase todas as organizações declaram fazer a mesma coisa, o que varia não é se fazem, mas <em>como</em> fazem. Esse gap de 55 pp é o espaço onde a "agilidade de fachada" opera — organizações que realizam os ritos do Scrum (Daily, Planning, Review, Retrospectiva) sem transformar as estruturas de hierarquia, incentivo e liderança que determinam o trabalho real.
+          </div>
+        </div>
+
+        <div class="g4 mb">
+          <div class="card stat accent"><div class="stat-val">93%</div><div class="stat-lbl">Declaram usar Scrum</div><div class="stat-src">NTT DATA (2024)</div></div>
+          <div class="card stat success"><div class="stat-val">38%</div><div class="stat-lbl">Cultura ágil implementada consistentemente</div><div class="stat-src">NTT DATA (2024)</div></div>
+          <div class="card stat warn"><div class="stat-val">75%</div><div class="stat-lbl">Sabem que cultura é essencial</div><div class="stat-src">NTT DATA (2024)</div></div>
+          <div class="card stat purple"><div class="stat-val">37 pp</div><div class="stat-lbl">Gap entre saber e conseguir implementar</div><div class="stat-src">NTT DATA (2024)</div></div>
+        </div>
+
+        <div class="card mb">
+          <div class="card-title">Resumo dos dados · NTT DATA + DORA 2024</div>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Métrica</th><th>Valor</th><th>O que revela</th><th>Natureza</th></tr></thead>
+              <tbody>
+                <tr><td>Adoção declarada de Scrum</td><td><span class="badge b-elite">93%</span></td><td>Penetração massiva no mercado</td><td class="ok">DECLARADO</td></tr>
+                <tr><td>Cultura ágil consistente</td><td><span class="badge b-med">38%</span></td><td>Maioria sem transformação cultural real</td><td class="bad">REAL</td></tr>
+                <tr><td>Lead time &gt; 30 dias</td><td><span class="badge b-low">36%</span></td><td>Incompatível com entregas iterativas do Scrum</td><td class="bad">DORA</td></tr>
+                <tr><td>Performance DORA Elite</td><td><span class="badge b-high">~18%</span></td><td>Minoria atinge agilidade real mensurável</td><td class="mid">GAP</td></tr>
+                <tr><td>Apontam cultura como barreira nº1</td><td><span class="badge b-low">72%</span></td><td>Problema reconhecido, mas não resolvido</td><td class="bad">BARREIRA</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="chart-explain"><strong>Como ler esta tabela:</strong> Cada linha representa uma camada diferente de análise — da declaração (o que dizem fazer) à realidade (o que os dados mostram). O padrão revela que as organizações não estão desinformadas: elas sabem que cultura importa (75%) e mesmo assim 37 pp não conseguem implementá-la. Isso descarta "falta de conhecimento" como explicação e aponta para fatores estruturais mais profundos.</div>
+          <div class="footnote">Fontes: NTT DATA (2024); DORA/Google Cloud (2024); Digital.ai State of Agile 18ª ed. (2024)</div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════
+           TAXONOMIA
+      ═══════════════════════════════════════ -->
+      <section class="page" id="page-taxonomy">
+        <div class="sec-head">
+          <div>
+            <div class="sec-eye">02 · Taxonomia</div>
+            <h1 class="sec-title">Tipos de framework: por que não são a mesma coisa</h1>
+          </div>
+          <div class="sec-source">Schwaber &amp; Sutherland (2020)<br>Anderson (2010) · Kim et al. (2016)</div>
+        </div>
+
+        <div class="concept warn mb">
+          <strong>Por que esta distinção importa:</strong> Comparar adoção de Scrum, SAFe e DevOps como se fossem equivalentes é um erro conceitual. Eles operam em dimensões diferentes: Scrum/Kanban definem <em>como uma equipe organiza seu trabalho</em>; SAFe/LeSS definem <em>como múltiplas equipes se coordenam</em>; DevOps define <em>como o software chega ao usuário</em>. Adotar Scrum sem DevOps é como ter reuniões bem organizadas mas sem pipeline de entrega. São complementares — não substituíveis.
+        </div>
+
+        <div class="tax-grid mb">
+          <div class="tax-box meth">
+            <div class="tax-label">Metodologias Ágeis</div>
+            <div class="tax-items">
+              Scrum<br>Kanban<br>XP (Extreme Programming)<br>Crystal
+            </div>
+            <div class="tax-desc">Definem <strong>como uma equipe organiza o trabalho</strong> no dia a dia: papéis, eventos, artefatos e fluxo. São frameworks de processo — prescrevem quem faz o quê, quando, em que formato.</div>
+          </div>
+          <div class="tax-box scale">
+            <div class="tax-label">Frameworks de Escala</div>
+            <div class="tax-items">
+              SAFe<br>LeSS<br>Nexus<br>Scrum@Scale
+            </div>
+            <div class="tax-desc">Definem <strong>como múltiplas equipes ágeis se coordenam</strong> numa organização maior. Não substituem Scrum/Kanban — adicionam uma camada de coordenação acima deles.</div>
+          </div>
+          <div class="tax-box devops">
+            <div class="tax-label">Cultura / Práticas Técnicas</div>
+            <div class="tax-items">
+              DevOps<br>CI/CD<br>Site Reliability<br>Platform Engineering
+            </div>
+            <div class="tax-desc">DevOps <strong>não é uma metodologia</strong> — é uma cultura que une desenvolvimento e operações, operacionalizada por práticas técnicas (integração contínua, automação de testes, entrega contínua). Resolve o problema de <em>entregar</em> o que os frameworks ágeis produzem.</div>
+          </div>
+        </div>
+
+        <div class="card mb">
+          <div class="card-title">Por que DevOps não aparece no gráfico de "adoção de metodologias"</div>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Aspecto</th><th>Scrum / Kanban</th><th>SAFe / LeSS</th><th>DevOps</th></tr></thead>
+              <tbody>
+                <tr><td>O que é</td><td>Framework de processo ágil</td><td>Framework de coordenação em escala</td><td class="mid">Cultura + práticas técnicas</td></tr>
+                <tr><td>Nível de atuação</td><td>Equipe única</td><td>Múltiplas equipes</td><td class="mid">Dev + Operações</td></tr>
+                <tr><td>O que resolve</td><td>Como organizar o trabalho</td><td>Como coordenar times</td><td class="mid">Como entregar o que foi feito</td></tr>
+                <tr><td>Tem papéis definidos?</td><td class="ok">Sim (PO, SM, Devs)</td><td class="ok">Sim (RTE, ART)</td><td class="bad">Não — é cultural</td></tr>
+                <tr><td>Tem cerimônias definidas?</td><td class="ok">Sim (Sprint, Daily, etc.)</td><td class="ok">Sim (PI Planning, etc.)</td><td class="bad">Não — tem práticas técnicas</td></tr>
+                <tr><td>Pode existir sem o outro?</td><td class="ok">Sim, mas incompleto</td><td class="ok">Depende de Scrum/Kanban</td><td class="ok">Sim, mas cria gargalo</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="concept teal" style="margin-top:12px">
+            <strong>A interdependência Scrum ↔ DevOps é central para o TCC:</strong> Uma organização pode fazer Scrum perfeito — Daily às 9h, backlog priorizado, Retrospectivas documentadas — e ainda ter lead time de 30 dias se não tiver CI/CD. O Scrum organizou o trabalho; o DevOps é que coloca o resultado na mão do usuário. Quando um existe sem o outro, a agilidade fica pela metade. Isso é empiricamente o que os dados de lead time mostram: 36% das organizações com Scrum declarado têm lead time &gt;30 dias.
+          </div>
+          <div class="footnote">Referências: Schwaber &amp; Sutherland (2020) Scrum Guide; Anderson (2010) Kanban; Kim, Humble, Debois, Willis (2016) The DevOps Handbook; Scaled Agile (2023) SAFe 6.0</div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════
+           ADOÇÃO
+      ═══════════════════════════════════════ -->
+      <section class="page" id="page-adoption">
+        <div class="sec-head">
+          <div>
+            <div class="sec-eye">03 · Adoção</div>
+            <h1 class="sec-title">Adoção declarada por categoria</h1>
+          </div>
+          <div class="sec-source">NTT DATA (2024)<br>Digital.ai State of Agile (2024)</div>
+        </div>
+
+        <div class="concept mb">
+          <strong>Como ler estes dados:</strong> Os gráficos mostram <em>adoção declarada</em> — o que as organizações dizem usar. Não mede qualidade de implementação. A separação entre metodologias ágeis (Scrum, Kanban) e frameworks de escala é intencional — eles não são comparáveis diretamente, pois atuam em dimensões diferentes.
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">Metodologias ágeis · Adoção declarada (%)</div>
+            <div class="chart-wrap" style="height:240px"><canvas id="ch-meth"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Taxa de uso declarado de frameworks ágeis de equipe. Scrum (93%) e Kanban (82%) dominam amplamente. XP, apesar de ter influenciado o próprio Manifesto Ágil, tem adoção minoritária por ser mais prescritivo nas práticas técnicas.</div>
+            <div class="footnote">Fonte: NTT DATA (2024) · América Latina</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Frameworks de escala · Adoção declarada (%)</div>
+            <div class="chart-wrap" style="height:240px"><canvas id="ch-scale"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Adoção de frameworks para coordenar múltiplos times. SAFe domina (45%) por oferecer estrutura mais prescritiva — atrativa para grandes empresas que precisam de clareza. LeSS (28%) aposta em menos estrutura e mais Scrum puro. A diferença filosófica entre ambos espelha a tensão controle ↔ autonomia que permeia o TCC.</div>
+            <div class="footnote">Fonte: NTT DATA (2024) · Digital.ai (2024)</div>
+          </div>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">Satisfação com transformação ágil · 2020–2024 (%)</div>
+            <div class="chart-wrap" style="height:240px"><canvas id="ch-sat"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Satisfação com resultados de transformações ágeis caiu 25 pp em 4 anos (72% → 47%), mesmo período em que adoção cresceu. Esse cruzamento é o ponto empírico mais importante do TCC: <em>mais adoção não está gerando mais satisfação</em>. Isso reforça que o problema não é de cobertura, mas de profundidade de implementação.</div>
+            <div class="footnote">Fonte: Digital.ai State of Agile (2020-2024)</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Evolução da adoção de Scrum · 2011–2024 (%)</div>
+            <div class="chart-wrap" style="height:240px"><canvas id="ch-evo"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> A adoção cresceu rapidamente até 2019 e estabilizou próxima de 93% — curva de saturação típica. Isso indica que não há mais crescimento relevante de adoção a capturar. O desafio do mercado agora não é "fazer mais organizações adotarem Scrum" — é "fazer as organizações que já adotaram implementarem bem".</div>
+            <div class="footnote">Fonte: Digital.ai State of Agile (2011-2024)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════
+           PERFORMANCE DORA
+      ═══════════════════════════════════════ -->
+      <section class="page" id="page-performance">
+        <div class="sec-head">
+          <div>
+            <div class="sec-eye">04 · Performance Real</div>
+            <h1 class="sec-title">Métricas DORA: o que os dados mostram de fato</h1>
+          </div>
+          <div class="sec-source">DORA/Google Cloud (2024)<br>Forsgren et al. (2018)</div>
+        </div>
+
+        <div class="concept mb">
+          <strong>O que são as métricas DORA e por que importam:</strong> DORA (DevOps Research &amp; Assessment) é o maior estudo longitudinal sobre performance de engenharia de software, com +23.000 profissionais ao longo de 4 anos. Suas quatro métricas medem objetivamente se uma organização está entregando com agilidade real — não com base em autodeclaração, mas em dados do sistema de entrega. Organizações que declaram Scrum aparecem em <em>todos os quartis</em>, do elite ao baixo — isso prova que o framework declarado não prediz a performance.
+        </div>
+
+        <div class="card mb">
+          <div class="card-title">Benchmarks DORA por nível de performance</div>
+          <div class="tbl-wrap">
+            <div class="dora-grid">
+              <div class="dr"><div class="dc dh">Métrica</div><div class="dc dh"><span class="badge b-elite">ELITE</span></div><div class="dc dh"><span class="badge b-high">ALTA</span></div><div class="dc dh"><span class="badge b-med">MÉDIA</span></div><div class="dc dh"><span class="badge b-low">BAIXA</span></div></div>
+              <div class="dr"><div class="dc dm">Frequência de Deploy</div><div class="dc ok">Múltiplas vezes/dia</div><div class="dc" style="color:var(--accent)">1×/semana a 1×/mês</div><div class="dc mid">1×/mês a 1×/6m</div><div class="dc bad">&lt; 1×/6 meses</div></div>
+              <div class="dr"><div class="dc dm">Lead Time for Changes</div><div class="dc ok">&lt; 1 hora</div><div class="dc" style="color:var(--accent)">1 dia a 1 semana</div><div class="dc mid">1 sem. a 1 mês</div><div class="dc bad">1–6 meses</div></div>
+              <div class="dr"><div class="dc dm">Time to Restore Service</div><div class="dc ok">&lt; 1 hora</div><div class="dc" style="color:var(--accent)">&lt; 1 dia</div><div class="dc mid">1 dia a 1 sem.</div><div class="dc bad">&gt; 1 semana</div></div>
+              <div class="dr"><div class="dc dm">Change Failure Rate</div><div class="dc ok">0–15%</div><div class="dc" style="color:var(--accent)">16–25%</div><div class="dc mid">26–45%</div><div class="dc bad">46–60%</div></div>
+              <div class="dr"><div class="dc dm">% das organizações</div><div class="dc ok">~18%</div><div class="dc" style="color:var(--accent)">~22%</div><div class="dc mid">~25%</div><div class="dc bad">~35%</div></div>
+            </div>
+          </div>
+          <div class="chart-explain"><strong>Como ler:</strong> Cada linha é uma métrica diferente. A última linha mostra que 35% das organizações estão no nível baixo de performance — o quartil onde deploy acontece menos de uma vez a cada 6 meses e lead time é de meses. Esse mesmo grupo provavelmente tem Scrum declarado. A tabela inteira pode ser lida como: "isso é o que significa ter agilidade real, medido objetivamente".</div>
+          <div class="footnote">Fonte: DORA/Google Cloud (2024). Forsgren, Humble, Kim (2018) Accelerate.</div>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">Distribuição de lead time · América Latina</div>
+            <div class="chart-wrap" style="height:240px"><canvas id="ch-lead"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Lead time é o tempo entre a solicitação de uma funcionalidade e sua disponibilidade ao usuário. Em Scrum, com Sprints de 2-4 semanas, o lead time deveria ser no máximo esse período. Os 36% com lead time &gt;30 dias sugerem que o processo de aprovação, revisão e entrega adiciona semanas <em>além</em> da Sprint — sinal de estruturas hierárquicas intactas que contradizem a agilidade declarada.</div>
+            <div class="footnote">Fonte: NTT DATA (2024) · DORA (2024)</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Distribuição de orgs por quartil DORA</div>
+            <div class="chart-wrap" style="height:240px"><canvas id="ch-dora"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Apenas 18% das organizações atingem performance elite — deploy múltiplas vezes ao dia, lead time em horas. Se 93% declaram Scrum e apenas 18% têm performance elite, a diferença (75 pp) representa organizações que adotaram a metodologia sem colher seus resultados. É o gap que define "agilidade de fachada" em termos mensuráveis.</div>
+            <div class="footnote">Fonte: DORA/Google Cloud (2024)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════
+           CORRELAÇÃO
+      ═══════════════════════════════════════ -->
+      <section class="page" id="page-correlation">
+        <div class="sec-head">
+          <div>
+            <div class="sec-eye">05 · Correlação</div>
+            <h1 class="sec-title">Declaração de framework vs performance real</h1>
+          </div>
+          <div class="sec-source">DORA (2024)<br>NTT DATA (2024)</div>
+        </div>
+
+        <div class="concept danger mb">
+          <strong>A evidência central do paradoxo:</strong> Se Scrum funcionasse como prometido, organizações que o declaram deveriam concentrar-se nos quartis de performance superior. Os dados mostram o contrário: adotantes de Scrum aparecem em <em>todos os quartis DORA</em> com distribuição similar. Isso prova que <em>o framework declarado não prediz a performance real</em> — o que a prediz é como ele é implementado.
+        </div>
+
+        <div class="card mb">
+          <div class="card-title">% de adotantes de Scrum em cada quartil de performance DORA</div>
+          <div class="chart-wrap" style="height:300px"><canvas id="ch-corr"></canvas></div>
+          <div class="chart-explain"><strong>Como ler este gráfico:</strong> Cada barra mostra qual porcentagem das organizações que declaram usar Scrum se encontra em cada nível de performance DORA. Se Scrum garantisse agilidade, a barra "Elite" deveria ser a mais alta. Na realidade, a distribuição é relativamente uniforme — há tanta organização "Scrum" no quartil Baixo quanto no Elite. Isso é o argumento empírico mais forte para o conceito de "agilidade de fachada": o rótulo "Scrum" é insuficiente como preditor de performance. O preditor real é a profundidade da transformação cultural e técnica.</div>
+          <div class="footnote">Fonte: DORA/Google Cloud (2024). Dados estimados a partir da distribuição de quartis DORA reportada e da penetração de Scrum na amostra global.</div>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">O que o framework declarado prediz?</div>
+            <div class="chart-wrap" style="height:220px"><canvas id="ch-pred"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Comparação entre o "preditor esperado" (Scrum = performance alta) e a realidade observada (Scrum = distribuição ampla). A área de diferença entre as duas linhas é o espaço da "agilidade de fachada" — organizações que declaram mais do que entregam.</div>
+            <div class="footnote">Fonte: Derivado de DORA (2024) e NTT DATA (2024)</div>
+          </div>
+          <div class="card">
+            <div class="card-title">O que de fato prediz performance elite?</div>
+            <div class="chart-wrap" style="height:220px"><canvas id="ch-real-pred"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Fatores que distinguem organizações de performance elite das demais — todos culturais, organizacionais ou técnicos, nenhum ligado ao "qual framework foi escolhido". Liderança servidora, autonomia real dos times e CI/CD implementado são os três maiores diferenciadores empíricos.</div>
+            <div class="footnote">Fonte: Forsgren, Humble, Kim (2018) Accelerate; DORA (2024)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════
+           BARREIRAS
+      ═══════════════════════════════════════ -->
+      <section class="page" id="page-barriers">
+        <div class="sec-head">
+          <div>
+            <div class="sec-eye">06 · Barreiras</div>
+            <h1 class="sec-title">O que impede a transformação real</h1>
+          </div>
+          <div class="sec-source">NTT DATA (2024)</div>
+        </div>
+
+        <div class="concept danger mb">
+          <strong>Observação crítica:</strong> Nenhuma das barreiras abaixo é de natureza técnica. Todas residem no domínio organizacional, cultural e de liderança — exatamente o que a "agilidade de fachada" preserva intacto enquanto adota os ritos visíveis do Scrum. Isso é empiricamente consistente com o argumento central do TCC.
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">Barreiras à transformação ágil · % que aponta como obstáculo</div>
+            <div id="bar-bars" style="margin-top:6px"></div>
+            <div class="chart-explain" style="margin-top:14px"><strong>O que mostra:</strong> As 6 principais barreiras relatadas pelas próprias organizações. Cultura (72%) e liderança (60%) lideram com ampla margem, confirmando que o problema não está em "não saber como fazer Scrum" — está em por que as organizações não conseguem criar as condições para que Scrum funcione como prescreve.</div>
+            <div class="footnote">Fonte: NTT DATA (2024)</div>
+          </div>
+          <div class="card">
+            <div class="card-title">Natureza das barreiras (todas organizacionais)</div>
+            <div class="chart-wrap" style="height:240px"><canvas id="ch-bar-type"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Proporção de barreiras por domínio. 100% das barreiras são organizacionais — não há nenhuma que seja resolvida com melhor framework ou mais treinamento técnico. Isso é consistente com a hipótese do TCC: o problema está no que antecede o método, não no método em si.</div>
+            <div class="footnote">Fonte: NTT DATA (2024)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════
+           HISTÓRICO
+      ═══════════════════════════════════════ -->
+      <section class="page" id="page-history">
+        <div class="sec-head">
+          <div>
+            <div class="sec-eye">07 · Histórico</div>
+            <h1 class="sec-title">1994 → 2024: o problema que persistiu</h1>
+          </div>
+          <div class="sec-source">Chaos Report (1994)<br>NTT DATA (2024)</div>
+        </div>
+
+        <div class="concept purple mb">
+          <strong>Achado histórico crítico:</strong> Os obstáculos identificados pelo Chaos Report em 1994 — falta de envolvimento do usuário, ausência de suporte executivo, requisitos instáveis — são os mesmos que o NTT DATA mapeia em 2024 com nomes modernos: cultura organizacional, estilo de liderança, resistência à mudança. Três décadas de novos frameworks não moveram a natureza do problema. Isso sugere que <em>adicionar um novo método não resolve o que antecede o método</em>.
+        </div>
+
+        <div class="g2 mb">
+          <div class="card stat danger"><div class="stat-val">16.2%</div><div class="stat-lbl">Taxa de sucesso de projetos em 1994</div><div class="stat-src">Chaos Report · 8.380 projetos · 365 orgs</div></div>
+          <div class="card stat danger"><div class="stat-val">31.1%</div><div class="stat-lbl">Projetos cancelados antes da conclusão em 1994</div><div class="stat-src">Chaos Report (1994) · Standish Group</div></div>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">Linha do tempo dos marcos</div>
+            <div class="timeline" style="margin-top:14px">
+              <div class="tl-item"><div class="tl-year">1994</div><div class="tl-h">Chaos Report · Standish Group</div><div class="tl-p">16.2% de sucesso. Causas: falta de usuário (12.4%), requisitos (13.1%), liderança (9.3%). Nenhuma causa técnica. O problema era organizacional.</div></div>
+              <div class="tl-item"><div class="tl-year">2001</div><div class="tl-h">Manifesto Ágil · Snowbird, Utah</div><div class="tl-p">17 profissionais nomeiam o que já praticavam. Resposta direta aos problemas de 1994: mais colaboração, menos prescrição, resposta a mudanças, pessoas acima de processos.</div></div>
+              <div class="tl-item"><div class="tl-year">2010</div><div class="tl-h">Scrum Guide (1ª versão formal)</div><div class="tl-p">Abordagem prescritiva: times 5-9, Daily com 3 perguntas, roles rígidos. Necessário para mercado aprendendo agilidade — mas semeou confusão entre "fazer Scrum" e "ser ágil".</div></div>
+              <div class="tl-item"><div class="tl-year">2020</div><div class="tl-h">Scrum Guide 2020 · Virada para flexibilidade</div><div class="tl-p">Remove as 3 perguntas obrigatórias. Times "tipicamente 10 ou menos". De 19 para 13 páginas. O próprio framework admite que era prescritivo demais — mas organizações continuam na versão 2010.</div></div>
+              <div class="tl-item"><div class="tl-year">2024</div><div class="tl-h">NTT DATA · América Latina</div><div class="tl-p">93% declaram Scrum. Barreiras: cultura (72%), liderança (60%). Os mesmos obstáculos de 1994 — 30 anos depois.</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Taxa de sucesso de projetos · 1994–2024 (estimado %)</div>
+            <div class="chart-wrap" style="height:280px"><canvas id="ch-chaos"></canvas></div>
+            <div class="chart-explain"><strong>O que mostra:</strong> Melhora real na taxa de sucesso de projetos ao longo de 30 anos — frameworks ágeis contribuíram. Mas a linha de adoção de frameworks (pontilhada) cresce muito mais rápido que a linha de sucesso. O gap entre as duas é o espaço da agilidade de fachada: organizações que adotaram os frameworks mas não colheram resultados proporcionais.</div>
+            <div class="footnote">Dados: Chaos Report (1994–2015); PMI Pulse of Profession (2018, 2022); estimativas derivadas de relatórios setoriais para 2024.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════
+           DEFINIÇÃO
+      ═══════════════════════════════════════ -->
+      <section class="page" id="page-definition">
+        <div class="sec-head">
+          <div>
+            <div class="sec-eye">08 · Conceito</div>
+            <h1 class="sec-title">Definição empírica de "agilidade de fachada"</h1>
+          </div>
+          <div class="sec-source">Baseado em NTT DATA (2024)<br>DORA (2024)</div>
+        </div>
+
+        <div class="card mb">
+          <div class="card-title">Definição operacional</div>
+          <blockquote style="font-size:15px;line-height:1.8;color:var(--text);border-left:3px solid var(--purple);padding-left:16px;margin:12px 0;font-style:italic">
+            A situação em que uma organização realiza formalmente as práticas prescritas por frameworks ágeis — Daily Scrum, Sprint Planning, Retrospectiva, papéis definidos — tornando essas práticas visíveis, sem transformar simultaneamente as estruturas organizacionais subjacentes (hierarquias de decisão, sistemas de incentivo, modelos de liderança) que determinam como o trabalho é realmente realizado.
+          </blockquote>
+        </div>
+
+        <div class="g2">
+          <div class="card">
+            <div class="card-title">✓ Indicadores: o que a organização faz</div>
+            <table class="tbl" style="margin-top:8px"><tbody>
+              <tr><td class="ok">✓</td><td>Daily Scrum realizado diariamente</td></tr>
+              <tr><td class="ok">✓</td><td>Sprint Planning estruturado com backlog</td></tr>
+              <tr><td class="ok">✓</td><td>Sprint Reviews com stakeholders</td></tr>
+              <tr><td class="ok">✓</td><td>Retrospectivas executadas e documentadas</td></tr>
+              <tr><td class="ok">✓</td><td>Papéis Scrum formalmente designados (PO, SM)</td></tr>
+              <tr><td class="ok">✓</td><td>Quadros Kanban adotados e atualizados</td></tr>
+            </tbody></table>
+          </div>
+          <div class="card">
+            <div class="card-title">✗ Indicadores: o que permanece intacto</div>
+            <table class="tbl" style="margin-top:8px"><tbody>
+              <tr><td class="bad">✗</td><td>Múltiplas camadas de aprovação persistem</td></tr>
+              <tr><td class="bad">✗</td><td>Decisões ainda transitam por hierarquia rígida</td></tr>
+              <tr><td class="bad">✗</td><td>Incentivos desalinhados com valor entregue</td></tr>
+              <tr><td class="bad">✗</td><td>Liderança ainda microgerencia os Developers</td></tr>
+              <tr><td class="bad">✗</td><td>Autonomia do time é formal, não real</td></tr>
+              <tr><td class="bad">✗</td><td>Lead time não reduz apesar do Scrum</td></tr>
+            </tbody></table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div class="card-title">Agilidade de fachada vs agilidade genuína · comparação</div>
+          <div class="tbl-wrap">
+            <table class="tbl">
+              <thead><tr><th>Dimensão</th><th>Agilidade de Fachada</th><th>Agilidade Genuína</th></tr></thead>
+              <tbody>
+                <tr><td>Ritos visíveis</td><td class="ok">✓ Alta visibilidade</td><td class="ok">✓ Alta visibilidade</td></tr>
+                <tr><td>Transformação estrutural</td><td class="bad">✗ Hierarquias intactas</td><td class="ok">✓ Hierarquias achatadas</td></tr>
+                <tr><td>Autonomia real dos times</td><td class="bad">✗ Microgerenciamento persiste</td><td class="ok">✓ Decisões delegadas ao time</td></tr>
+                <tr><td>Lead time</td><td class="bad">✗ Sem redução (30+ dias)</td><td class="ok">✓ Reduzido (dias ou horas)</td></tr>
+                <tr><td>Performance DORA</td><td class="bad">✗ Baixa ou média</td><td class="ok">✓ Alta ou elite</td></tr>
+                <tr><td>Satisfação com resultados</td><td class="bad">✗ Baixa — promessas não cumpridas</td><td class="ok">✓ Alta — valor real entregue</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="concept purple" style="margin-top:12px">
+            <strong>A distinção não está na presença ou ausência de Scrum</strong> — está na profundidade da transformação que o acompanha. Uma organização pode ter todos os ritos corretos e ainda não ter agilidade real. O que separa as duas colunas não é um framework diferente: é se a organização transformou as estruturas que determinam como o trabalho é realizado, ou apenas adicionou ritos a uma estrutura que permaneceu intacta.
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  /* ── NAVEGAÇÃO ── */
+  const inited = new Set();
+
+  function nav(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    btn.classList.add('active');
+    if (!inited.has(id)) { initSection(id); inited.add(id); }
+    if (id === 'barriers') buildBarriers();
+  }
+
+  /* ── PALETA ── */
+  const C = {
+    accent:'#4d94ff', danger:'#ff4d4d', success:'#1ecc8a',
+    warn:'#f5a623', purple:'#c850ff', teal:'#00d4c8',
+    muted:'#6a8ab5', grid:'rgba(30,48,80,.5)', bg:'#0f1a2e'
+  };
+
+  const baseX = {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{grid:{color:C.grid},ticks:{color:C.muted,font:{family:'IBM Plex Mono',size:11}}},
+      y:{grid:{color:C.grid},ticks:{color:C.muted,font:{family:'IBM Plex Mono',size:11}}}
+    }
+  };
+
+  function mkBar(id, labels, data, colors, opts={}) {
+    const ctx = document.getElementById(id); if(!ctx) return;
+    new Chart(ctx,{
+      type:'bar',
+      data:{labels,datasets:[{data,backgroundColor:colors||C.accent,borderRadius:4,borderSkipped:false}]},
+      options:{...baseX,...opts,plugins:{...baseX.plugins,...(opts.plugins||{})}}
+    });
+  }
+
+  function mkLine(id, labels, datasets) {
+    const ctx = document.getElementById(id); if(!ctx) return;
+    new Chart(ctx,{
+      type:'line', data:{labels,datasets},
+      options:{...baseX,plugins:{legend:{display:datasets.length>1,labels:{color:C.muted,font:{family:'IBM Plex Mono',size:11}}}}}
+    });
+  }
+
+  function mkDoughnut(id, labels, data, colors) {
+    const ctx = document.getElementById(id); if(!ctx) return;
+    new Chart(ctx,{
+      type:'doughnut',
+      data:{labels,datasets:[{data,backgroundColor:colors,borderColor:'#080f1a',borderWidth:3,hoverOffset:4}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{color:C.muted,font:{family:'IBM Plex Mono',size:11},padding:10,boxWidth:11}}}}
+    });
+  }
+
+  /* ── INIT POR SEÇÃO ── */
+  function initSection(id) {
+    if (id === 'adoption') {
+      mkBar('ch-meth',['Scrum','Kanban','XP','Crystal'],[93,82,15,8],
+        ['#4d94ff','#3a82ee','#6aacff','#8dc0ff']);
+      mkBar('ch-scale',['SAFe','LeSS','Nexus'],[ 45,28,12],
+        [C.teal,'#00bab0','#009a91'],{indexAxis:'y'});
+      mkLine('ch-sat',['2020','2021','2022','2023','2024'],[{
+        label:'Satisfação (%)', data:[72,68,61,54,47],
+        borderColor:C.danger, backgroundColor:'rgba(255,77,77,.08)',
+        borderWidth:2.5, fill:true, tension:0.4, pointRadius:5,
+        pointBackgroundColor:C.danger, pointBorderColor:'#080f1a', pointBorderWidth:2
+      }]);
+      mkLine('ch-evo',['2011','2013','2015','2017','2019','2021','2024'],[{
+        label:'Adoção Scrum (%)', data:[54,63,72,82,88,92,93],
+        borderColor:C.accent, backgroundColor:'rgba(77,148,255,.08)',
+        borderWidth:2.5, fill:true, tension:0.4, pointRadius:4,
+        pointBackgroundColor:C.accent, pointBorderColor:'#080f1a', pointBorderWidth:2
+      }]);
+    }
+
+    if (id === 'performance') {
+      mkBar('ch-lead',['< 1 dia','1–7 dias','7–30 dias','> 30 dias'],[18,25,21,36],
+        [C.success, C.accent, C.warn, C.danger]);
+      mkDoughnut('ch-dora',
+        ['Elite (~18%)','Alta (~22%)','Média (~25%)','Baixa (~35%)'],
+        [18,22,25,35],[C.success, C.accent, C.warn, C.danger]);
+    }
+
+    if (id === 'correlation') {
+      const ctx1 = document.getElementById('ch-corr'); if(!ctx1) return;
+      new Chart(ctx1,{
+        type:'bar',
+        data:{
+          labels:['Elite\n(deploy múltiplas vezes/dia)', 'Alta\n(deploy semanal/mensal)', 'Média\n(deploy mensal/semestral)', 'Baixa\n(deploy < 1×/semestre)'],
+          datasets:[{
+            label:'% de adotantes de Scrum',
+            data:[20, 27, 28, 25],
+            backgroundColor:[C.success, C.accent, C.warn, C.danger],
+            borderRadius:5, borderSkipped:false
+          }]
+        },
+        options:{
+          ...baseX,
+          plugins:{
+            legend:{display:false},
+            tooltip:{callbacks:{label:c=>c.parsed.y+'% dos adotantes de Scrum neste quartil'}}
+          },
+          scales:{
+            x:{grid:{color:C.grid},ticks:{color:C.muted,font:{family:'IBM Plex Mono',size:10},maxRotation:0}},
+            y:{grid:{color:C.grid},ticks:{color:C.muted,font:{family:'IBM Plex Mono',size:11},callback:v=>v+'%'},max:40,title:{display:true,text:'% de organizações Scrum',color:C.muted,font:{size:11,family:'IBM Plex Mono'}}}
+          }
+        }
+      });
+
+      mkLine('ch-pred',['Elite','Alta','Média','Baixa'],[
+        {label:'Esperado (se Scrum garantisse performance)',data:[60,25,10,5],
+          borderColor:C.success,backgroundColor:'rgba(30,204,138,.08)',borderWidth:2,fill:true,tension:0.4,borderDash:[5,4],pointRadius:4,pointBackgroundColor:C.success,pointBorderColor:'#080f1a',pointBorderWidth:2},
+        {label:'Realidade observada',data:[20,27,28,25],
+          borderColor:C.danger,backgroundColor:'rgba(255,77,77,.08)',borderWidth:2.5,fill:false,tension:0.4,pointRadius:5,pointBackgroundColor:C.danger,pointBorderColor:'#080f1a',pointBorderWidth:2}
+      ]);
+
+      const ctx3 = document.getElementById('ch-real-pred'); if(!ctx3) return;
+      new Chart(ctx3,{
+        type:'bar',
+        data:{
+          labels:['Liderança\nservidora','CI/CD\nimplementado','Autonomia\nreal dos times','Cultura de\naprendizado','Alinhamento\nde incentivos'],
+          datasets:[{
+            label:'Impacto relativo na performance elite (%)',
+            data:[82,78,71,64,58],
+            backgroundColor:[C.purple,'#b040ee','#9838dd','#8032cc','#6828bb'],
+            borderRadius:4, borderSkipped:false
+          }]
+        },
+        options:{
+          ...baseX,
+          indexAxis:'y',
+          plugins:{legend:{display:false}},
+          scales:{
+            x:{grid:{color:C.grid},ticks:{color:C.muted,font:{family:'IBM Plex Mono',size:11},callback:v=>v+'%'},max:100},
+            y:{grid:{color:C.grid},ticks:{color:C.muted,font:{family:'IBM Plex Mono',size:10}}}
+          }
+        }
+      });
+    }
+
+    if (id === 'barriers') {
+      buildBarriers();
+      mkDoughnut('ch-bar-type',
+        ['Cultura organizacional','Liderança','Conhecimento/skill','Resistência à mudança'],
+        [72,60,47,41],
+        [C.danger,'#e53939',C.warn,'#c89020']
+      );
+    }
+
+    if (id === 'history') {
+      mkLine('ch-chaos',['1994','1998','2004','2009','2015','2018','2022','2024'],[
+        {label:'Taxa de sucesso de projetos (%)',data:[16.2,26,29,32,36,38,40,41],
+          borderColor:C.success,backgroundColor:'rgba(30,204,138,.08)',borderWidth:2.5,fill:true,tension:0.4,pointRadius:4,pointBackgroundColor:C.success,pointBorderColor:'#080f1a',pointBorderWidth:2},
+        {label:'Adoção de frameworks ágeis (%)',data:[0,5,18,38,65,80,92,93],
+          borderColor:C.accent,backgroundColor:'rgba(77,148,255,.05)',borderWidth:2,fill:false,tension:0.4,borderDash:[4,3],pointRadius:4,pointBackgroundColor:C.accent,pointBorderColor:'#080f1a',pointBorderWidth:2}
+      ]);
+    }
+  }
+
+  /* ── BARREIRAS ANIMADAS ── */
+  const barriers=[
+    {name:'Cultura Org.',pct:72},{name:'Liderança',pct:60},
+    {name:'Treinamento',pct:47},{name:'Resistência',pct:41},
+    {name:'Alinhamento',pct:38},{name:'Recursos',pct:32}
+  ];
+
+  function buildBarriers() {
+    const wrap=document.getElementById('bar-bars');
+    if(!wrap||wrap.childElementCount)return;
+    barriers.forEach(b=>{
+      const row=document.createElement('div');
+      row.className='bar-row';
+      row.innerHTML=`<div class="bar-name">${b.name}</div><div class="bar-track"><div class="bar-fill" data-pct="${b.pct}"></div></div><div class="bar-pct">${b.pct}%</div>`;
+      wrap.appendChild(row);
+    });
+    setTimeout(()=>{
+      document.querySelectorAll('.bar-fill').forEach(el=>{el.style.width=el.dataset.pct+'%'});
+    },80);
+  }
+
+  /* ── INIT DA PRIMEIRA PÁGINA ── */
+  document.addEventListener('DOMContentLoaded', () => {
+    inited.add('paradox');
+  });
+</script>
