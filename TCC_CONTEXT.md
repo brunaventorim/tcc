@@ -1,225 +1,318 @@
-# TCC_CONTEXT.md — Contexto de Trabalho: TCC Bruna Ventorim
+# TCC_CONTEXT.md — Contexto do Trabalho de Conclusão de Curso
 
-> **Leia este arquivo no início de cada sessão antes de qualquer tarefa.**
-> Última atualização: 31/08/2026
-
----
-
-## 1. IDENTIFICAÇÃO DO PROJETO
-
-- **Autora:** Bruna Ventorim
-- **Instituição:** UERJ — Curso de Tecnologia em Análise e Desenvolvimento de Sistemas (TADS)
-- **Trabalho:** TCC (Trabalho de Conclusão de Curso) — monografia
-- **Título:** *Estudo das metodologias de desenvolvimento de software mais adotadas*
-- **Conceito central:** "agilidade de fachada" — organizações que declaram adoção ágil sem transformar a cultura que sustenta os frameworks
+> Documento de inicialização para sessões no Claude Code.
+> Atualizado em: setembro de 2026.
+> Repositório: `brunaventorim/tcc`, branch `dev`.
 
 ---
 
-## 2. PERGUNTA CENTRAL E ARGUMENTO
+## Identificação
 
-**Pergunta central:**
-> Por que a distância entre adotar as metodologias ágeis e colher seus resultados persiste, mesmo depois que os frameworks amadureceram e as evidências de desempenho se tornaram públicas?
-
-**Arco argumentativo:**
-1. Chaos Report (1994) identificou que os principais obstáculos ao sucesso de projetos eram organizacionais/culturais, não técnicos
-2. Manifesto Ágil (2001) como resposta coletiva a esse diagnóstico
-3. Adoção massiva declarada (93% Scrum na América Latina — NTT DATA, 2024)
-4. Paradoxo revelado: 75% reconhecem cultura ágil como essencial, apenas 38% acreditam tê-la construído (gap de 37 pontos percentuais)
-5. Fenômeno nomeado: "agilidade de fachada"
-6. Pergunta: por que o gap persiste?
+- **Curso:** TADS — Tecnologia em Análise e Desenvolvimento de Sistemas
+- **Instituição:** UERJ
+- **Tipo de pesquisa:** Bibliográfica e documental (Gil 2002 / Lakatos & Marconi)
+  - Natureza: aplicada
+  - Abordagem: qualitativa
+  - Objetivo: explicativo
 
 ---
 
-## 3. ESTRUTURA DE CAPÍTULOS
+## Tema e Pergunta Central
 
-| Capítulo | Título | Função no argumento |
-|---|---|---|
-| Introdução | — | Instala o problema, apresenta arco e pergunta central |
-| Cap. 1 | Fundamentos Teóricos: do Manifesto Ágil aos Frameworks Contemporâneos | Percurso histórico e teórico; mostra convergência de frameworks distintos |
-| Cap. 2 | Metodologia (Procedimentos de Pesquisa) | Classifica a pesquisa e justifica as escolhas metodológicas |
-| Cap. 3 | (a desenvolver) | Instala o paradoxo com dados: declaração vs. performance real |
-| Cap. 4 | (a desenvolver) | Explica por que o paradoxo persiste (interpretação causal) |
-| Cap. 5 | (a desenvolver) | Conclusão: limitações, trabalhos futuros, implicações práticas |
+**Tema:** Estudo das metodologias de desenvolvimento de software mais adotadas.
 
-**Distinção crítica Cap. 3 → Cap. 4:**
-- Cap. 3 usa dados para mostrar que o paradoxo existe (evidência empírica)
-- Cap. 4 explica os mecanismos que o sustentam (interpretação causal)
-- Não confundir: misturar os dois faz o trabalho parecer repetitivo para a banca
+**Subtítulo (em avaliação):** Agilidade de fachada — a lacuna entre adoção declarada de metodologias ágeis e os resultados esperados.
 
-**Estrutura Cap. 3 (planejada):**
-- 3.1 — Instala o paradoxo central (NTT DATA como fonte mais nítida)
-- 3.2 — Muda o critério: de declaração para performance real (métricas DORA)
-- 3.3 — Sintetiza barreiras estruturais como evidência de que o problema antecede a escolha do framework; fecha aberto para Cap. 4
+**Pergunta central:** Por que o gap entre adotar metodologias ágeis e alcançar seus resultados persiste, mesmo após a maturação dos frameworks e a publicação de evidências de desempenho?
+
+**Argumento central:** O problema não está nos frameworks, mas em falhas de implementação enraizadas na cultura organizacional e no comportamento da liderança — o que o trabalho nomeia como "agilidade de fachada".
 
 ---
 
-## 4. STATUS DOS CAPÍTULOS
+## Estrutura do Trabalho
 
-| Seção | Status |
-|---|---|
-| Introdução | ✅ Escrita e validada pela orientadora (com ajustes menores) |
-| Sumário | ✅ Validado — tratado como esqueleto vivo, não estrutura rígida |
-| Cap. 1 (completo) | ✅ Escrito e revisado |
-| Cap. 2 (completo) | ✅ Escrito e revisado |
-| Cap. 3 | ⬜ A escrever |
-| Cap. 4 | ⬜ A escrever |
-| Cap. 5 | ⬜ A escrever |
-| Apresentação oral | ⬜ A desenvolver após a monografia estar completa |
+| Capítulo    | Conteúdo                                                      |
+|-------------|---------------------------------------------------------------|
+| Introdução  | Contextualização, justificativa, objetivos, estrutura         |
+| Cap. 1      | Fundamentos teóricos: paradigma pré-ágil → Manifesto → frameworks → ecossistema |
+| Cap. 2      | Metodologia da pesquisa                                       |
+| Cap. 3      | Instalação do paradoxo via dados empíricos                    |
+| Cap. 4      | Explicação interpretativa do paradoxo (por que ele persiste)  |
+| Cap. 5      | Conclusão: limitações, pesquisas futuras, implicações práticas |
 
-**Pendente de validação com a orientadora:**
-- Implicações práticas no Cap. 5 cabem no perfil do curso TADS?
-- Dados DORA 2025 (IA) devem ficar restritos à conclusão?
+**Distinção crítica Cap. 3 / Cap. 4:** O Cap. 3 instala o paradoxo com dados; o Cap. 4 explica por que ele persiste em nível interpretativo. Confundi-los produz um capítulo que repete em vez de avançar.
+
+**Status atual:** Capítulos 1 e 2 escritos e validados pela orientadora. Caps. 3, 4 e 5 a escrever.
 
 ---
 
-## 5. SEÇÕES DO CAP. 1 (estrutura detalhada)
+## Normas de Formatação ABNT/UERJ
 
-### 1.1 O Contexto Pré-Ágil: O PMBOK e a Gestão de Projetos por Processos
-- Waterfall como paradigma dominante (lógica industrial aplicada a software)
-- PMBOK como sistematização desse paradigma (não é metodologia — é guia; 1ª doc. estruturado: 1987; 1ª edição formal: 1996)
-- Chaos Report (1994): 365 org., 8.380 projetos; 16,2% sucesso; causas organizacionais, não técnicas
-- Fatores de falha (1994) = mesmos de 2024 → antecipa tese central
-
-### 1.2 O Manifesto Ágil e a Ruptura de Paradigmas
-- Snowbird, Utah, fevereiro de 2001; 17 profissionais
-- 4 valores + 12 princípios; hierarquia de prioridade, não lista de exclusões
-- Contexto histórico do Scrum: Schwaber e Sutherland vinham desenvolvendo desde final dos anos 1990
-- Quadro 1 — diferenças Manifesto vs. Scrum Guide
-
-### 1.3 Frameworks Predominantes: Scrum e Kanban
-- Nota terminológica: "metodologia", "framework", "método" — usados de forma intercambiável no mercado; trabalho adota "metodologia" em sentido amplo
-- 1.3.1 — Scrum 2010 → 2020: prescrição → flexibilidade (Daily Scrum, tamanho do time, Product Goal)
-- 1.3.2 — Estrutura atual do Scrum: papéis, eventos, artefatos (versão 2020)
-- 1.3.3 — Kanban: Anderson (2010); 5 propriedades; fluxo contínuo vs. iterações
-
-### 1.4 A Expansão do Ecossistema Ágil: Dimensões Organizacional e Técnica
-- 1.4.1 — SAFe vs. LeSS (escala organizacional): prescrição vs. simplicidade
-- 1.4.2 — DevOps e métricas DORA (dimensão técnica): CI/CD; Scrum e DevOps são independentes; "agilidade de fachada vive no espaço entre Scrum e DevOps"
-- 1.4.3 — PMBOK revisitado: convergência (o guia mais estabelecido da gestão de projetos precisou incorporar o pensamento ágil)
-- Síntese final do capítulo (parágrafo sem numeração): convergência de frameworks de origens distintas para os mesmos valores
+- Fonte: Arial 12pt
+- Espaçamento: 1,5
+- Recuo de parágrafo: 1,25 cm (uniforme, sem exceções)
+- Alinhamento: justificado
+- Margens: 3/3/2/2 cm, papel A4
+- Citações longas (bloco): recuo de 4 cm
 
 ---
 
-## 6. FONTES CONFIRMADAS
+## Regras de Escrita
 
-### Documentos primários
-| Fonte | Uso |
-|---|---|
-| Standish Group (1994) — Chaos Report | Cap. 1.1 (citar diretamente, NUNCA via apud) |
-| Beck et al. (2001) — Manifesto Ágil | Cap. 1.2 |
-| Schwaber & Sutherland (2010) — Scrum Guide | Cap. 1.3.1 (versão prescritiva) |
-| Schwaber & Sutherland (2020) — Scrum Guide | Cap. 1.3.1, 1.3.2 |
-| Anderson (2010) — Kanban | Cap. 1.3.3 |
-| Sutherland & Sutherland (2014) | Citação indireta, sem página |
+### Proibições absolutas
 
-### Literatura acadêmica
-| Fonte | Uso principal |
-|---|---|
-| Forsgren, Humble & Kim (2018) — Accelerate | Cap. 1.4.2, Cap. 2, Cap. 3 |
-| Adkins (2010) — Coaching Agile Teams | Cap. 4.3 |
-| Varajão & Trigo (2024, ACM Queue) | Cap. 4.2 (principal), Cap. 2.1, 2.2 |
-| Gil (2002) | Cap. 2 (classificação metodológica) |
-| Lakatos & Marconi | Cap. 2 (classificação metodológica) |
+- **Sem travessões (—) em nenhum ponto do documento.** Substituir por vírgula, ponto-e-vírgula, dois-pontos ou reestruturar a frase. Tratado como marcador de escrita por IA.
+- **Vocabulário banido:** "internalização", "paradoxalmente", "marcadamente", "de forma inequívoca", "nessa lacuna", "cabe destacar", "é importante salientar", "evidencia-se que", "no que tange". Qualquer expressão que soe a preenchimento de parágrafo.
+- **Títulos de seção:** formato nominal descritivo. Nunca assertivo ("A agilidade falha porque...") e nunca em forma de pergunta. Complemento por dois-pontos é permitido.
+- **PMBOK é um guia, não uma metodologia.** Enquadrar assim de forma consistente em todo o texto.
 
-### Relatórios setoriais
-| Fonte | Uso |
-|---|---|
-| NTT DATA (2022) — "De Agile a Agility" | Cap. 1/2 |
-| NTT DATA (2024) — Agilidade na América Latina | Cap. 3 (fonte mais nítida do paradoxo) |
-| Digital.ai (2023) — State of Agile 17th | Cap. 3 |
-| Digital.ai (2024) — State of Agile 18th | Cap. 1.4, Cap. 3 |
-| DORA/Google Cloud (2020) — ROI of DevOps | Cap. 1.4.2, Cap. 3 |
-| DORA (2022) — Accelerate State of DevOps | Cap. 3 |
-| DORA (2024) — Accelerate State of DevOps | Cap. 1.4.2, Cap. 3 |
-| DORA (2025) — IA e desenvolvimento | Conclusão apenas (prospectivo) |
-| PMBOK 7th edition (2021) | Cap. 1.4.3 |
+### Parágrafos e frases
 
-### Fontes EXCLUÍDAS (não mencionar em nenhuma circunstância)
-- Lean Inception (Caroli, 2017) — removido completamente
-- Prasanth, Valsala & Soomro — tangencial, excluído
-- McKinsey (gray literature) — excluído por rigor metodológico
-- Agile Trends PRE25 eBooks — pendente validação da orientadora; tratar como excluído até confirmação
+- **Aberturas de parágrafo variadas.** Nenhum conector lógico deve se repetir em parágrafos consecutivos. Proibido abrir dois parágrafos seguidos com "Dessa forma", "Portanto", "Nesse sentido", "Assim sendo" ou equivalentes. Quando o parágrafo não precisar de conector, começar direto com o argumento.
+- **Frases curtas a médias.** Quando uma frase ultrapassar três linhas, revisar: provavelmente dá para dividir em duas ou eliminar um trecho redundante.
+- **Sem repetição de palavra-chave no mesmo parágrafo.** Se o termo precisar aparecer mais de uma vez, usar sinônimo ou referenciar pronominalmente na segunda ocorrência.
+- **Um argumento por parágrafo.** A frase de abertura enuncia; o restante desenvolve ou evidencia. Parágrafo que faz duas coisas deve ser dividido.
+
+### Voz analítica
+
+- **Fontes sustentam o argumento; não são o argumento.** O texto não narra o que cada fonte diz em sequência. A autora interpreta, confronta ou sintetiza; a fonte é convocada para sustentar uma posição já enunciada.
+- **Proibido o padrão "Segundo X, Y. Segundo Z, W."** Dois dados de fontes diferentes no mesmo bloco devem ser mediados por análise própria ou conectados por uma relação explícita (contraste, confirmação, extensão).
+- **Dados e percentuais precisam de enquadramento.** Não soltar número sem dizer o que ele significa para o argumento. Ex.: não "72% apontam cultura organizacional como barreira"; mas "a recorrência desse dado em diferentes estudos sugere que o obstáculo não é pontual".
+
+### Citações e dados
+
+- **Citação direta só quando o enunciado exato importa.** Para conceitos, definições e argumentos, parafrasear com atribuição. Citação literal reservada para definições fundadoras (ex.: Manifesto Ágil) ou formulações cujo enunciado preciso é relevante para a análise.
+- **Dado quantitativo exige fonte e ano na mesma frase ou na imediatamente seguinte.** Nunca deixar percentual solto sem referência clara.
+- **Fontes em diálogo, não em fila.** Quando dois estudos apontam na mesma direção, articular a convergência. Quando divergem, nomear a tensão. Evitar empilhar citações que dizem a mesma coisa sem mediação analítica.
+- **Gray literature (NTT DATA, BAI, State of Agile, JCURV) precisa de enquadramento de fonte** na primeira vez que aparecer em cada capítulo: tipo de estudo, amostra, ano. Não tratar como se tivesse o mesmo peso de artigo indexado.
 
 ---
 
-## 7. RESTRIÇÕES DE ESCRITA (NÃO NEGOCIÁVEIS)
+## Mapeamento Completo de Fontes
 
-### Formatação ABNT/UERJ
-- Arial 12pt, espaçamento 1,5, parágrafo com recuo de 1,25cm (uniforme, sem exceções)
-- Alinhamento justificado, margens A4: 3/3/2/2cm
-- Citações longas (bloco): recuo de 4cm
-- Citações ABNT em todo o texto
+### Fontes confirmadas com placement definido
 
-### Vocabulário e estilo
-- **Proibido:** travessão (—) em qualquer parte da prosa
-- **Evitar:** "internalização", "reside na lacuna", "paradoxalmente", "navegar", "emergir" como metáfora, e outros marcadores de escrita AI
-- Títulos de seção: nominais, descritivos (nunca assertivos ou em forma de pergunta)
-- Voz: analítica, acadêmica, mas humana — deve soar como a autora raciocina, não como texto gerado
+#### Chaos Report (Standish Group, 1994)
+- **Arquivo:** `chaosreport.pdf`
+- **Dados centrais:** 16,2% sucesso, 31,1% cancelados, 189% custo médio
+- **Placement:**
+  - Introdução: menção sem dados
+  - 1.1: desenvolvimento completo como evidência da crise pré-ágil
+  - 2.2 §1: fontes primárias
+- **Argumento a destacar:** O relatório já identificava falhas culturais/organizacionais (falta de envolvimento do usuário, falta de suporte executivo) — não técnicas. Isso antecipa diretamente a tese central e deve ser explicitado na seção 1.1.
 
-### Posicionamento das fontes
-- Fontes em diálogo, não em sequência narrativa ("Segundo A... Segundo B... Segundo C...")
-- Argumentação interpretativa: as escolhas devem ser defensáveis pela autora na banca
-- Waterfall aparece apenas em: (a) contextualização histórica da Introdução e (b) dados de contraste em 3.1
+#### Varajão & Trigo (2024, ACM Queue)
+- **Arquivo:** `3687999.pdf`
+- **Placement:**
+  - 1.1: uma linha de nuance à metodologia do Chaos Report
+  - 2.1: reforça viés de desejabilidade em dados autodeclarados
+  - 2.2 §2: literatura acadêmica indexada
+  - 4.2: **uso principal** — quando critérios de sucesso se expandem além do triângulo de ferro, taxas de sucesso sobem; demonstra empiricamente que o critério de medição define o que se enxerga (mecanismo central do paradoxo)
+
+#### NTT DATA 2024 — Agilidade na América Latina
+- **Arquivo:** `NTTDATA_Agilidade_na_America_Latina_2024.pdf`
+- **Dados confirmados:**
+  - 93% de adoção do Scrum
+  - 75% declaram ter cultura ágil; 38% dizem que ela está consolidada (gap de 37 p.p.)
+  - 72% apontam cultura organizacional como barreira
+  - 60% apontam estilo de liderança como barreira
+  - Dados de lead time: páginas 13 e 45
+- **Placement:** Cap. 3 (dados centrais do paradoxo)
+- **Atenção:** A estatística de 45% do SAFe pertence ao State of Agile/Digital.ai — não ao NTT DATA.
+
+#### NTT DATA 2022 — Agilidade na América Latina
+- **Arquivo:** `NTT_DATA_Agilidad2022_PT.pdf`
+- **Status:** INCLUIR — argumento longitudinal
+- **Dados principais:**
+  - 72% barreira cultura organizacional
+  - 69% estilo de liderança
+  - 66% silos entre áreas
+  - 62% processos burocráticos
+  - 61% resistência à mudança
+  - 90% adotam agilidade em TI/Software Development
+  - Benefícios: adaptação à mudança (40% excelente), experiência do cliente (28%), engajamento de equipes (27%)
+  - Redução de custos: benefício que menos melhora — consistente em todas as edições
+- **Placement:** Cap. 3 — usar em par com NTT DATA 2024 para demonstrar que as barreiras persistem sem variação estrutural entre 2022 e 2024. Argumento longitudinal, não duplicação de snapshot.
+
+#### DORA — ROI of DevOps Transformation (2020)
+- **Arquivo:** `theroiofdevopstransformationgoogleclouddora_1.pdf`
+- **Placement:** Cap. 3 (desempenho de entrega como critério analítico)
+
+#### DORA — Accelerate State of DevOps 2022
+- **Arquivo:** `2022doraacceleratestateodevopsreportportbrbma.pdf`
+- **Placement:** 4.3 — cultura generativa / tipologia de Westrum: cultura → performance organizacional
+
+#### DORA — Accelerate State of DevOps 2024
+- **Arquivos:** `2024doraacceleratestateodevopsreportptbr_3160.pdf` e `2024doraacceleratestateodevopsreportptbr_361117.pdf`
+- **Placement:** 1.3.2 + Cap. 4 (atualização da base de evidências DORA)
+- **Atenção:** Os dois arquivos provavelmente correspondem a partes ou versões distintas — verificar sobreposição antes de usar.
+
+#### DORA 2025 — State of AI-Assisted Software Development (PT-BR)
+- **Arquivo:** `2025_abridged_state_of_ai_assisted_software_development_ptbr_1.pdf`
+- **Placement: Conclusão apenas** — observação prospectiva sobre IA e agilidade
+- **Risco de escopo:** introduzir IA como variável pode atrair escrutínio da banca. Manter restrito à conclusão, como horizonte futuro.
+
+#### State of Agile 17ª Edição (Digital.ai)
+- **Arquivo:** `RESA17thAnnualStateOfAgileReport_1.pdf`
+- **Placement:** Cap. 3 — dados de adoção + contraste waterfall (28% ainda usam Waterfall; proporção maior em organizações grandes)
+
+#### State of Agile 18ª Edição (Digital.ai)
+- **Arquivo:** `Digitalai18thStateofAgile_1.pdf`
+- **Placement:** Cap. 3 — adoção atual
+- **Dado corrigido:** 45% de adoção do SAFe → atribuição correta é Digital.ai, não NTT DATA
+
+#### Agile Manifesto (Beck et al., 2001)
+- **Placement:** Cap. 1
+
+#### Scrum Guide 2010 (Schwaber & Sutherland)
+- **Arquivo:** `ScrumGuide2010.pdf`
+- **Placement:** Cap. 1
+
+#### Scrum Guide 2020 (PT-BR)
+- **Arquivo:** `2020ScrumGuidePortugueseBR3_0_1.pdf`
+- **Placement:** Cap. 1
+
+#### Kanban (Anderson, 2010)
+- **Placement:** Cap. 1
+
+#### Sutherland & Sutherland (2014)
+- **Placement:** Cap. 1 — citação indireta; paráfrase sem número de página (sem citação verbatim)
+
+#### Forsgren, Humble & Kim — Accelerate (2018)
+- **Arquivo:** `1803_05969v1.pdf`
+- **Placement:** Cap. 1 + Cap. 4
+
+#### Adkins (2010)
+- **Status:** PENDENTE — decidir com orientadora: citar no corpo ou remover das referências
 
 ---
 
-## 8. WORKFLOW TÉCNICO
+### Fontes novas avaliadas em setembro de 2026
 
-### Estrutura de arquivos no repositório
-```
-/
-├── TCC_CONTEXT.md          ← este arquivo (ler no início de cada sessão)
-├── analises/
-│   └── TCC_INT_CAP1_CAP2_COMPLETO_REESCRITO.md   ← Intro + Cap1 + Cap2 validados
-├── [capítulos futuros aqui]
-```
+#### 3rd State of Agile Culture Report (JCURV / Agile Business Consortium, 2023)
+- **Arquivo:** `3rdStateofAgileCultureReport.pdf`
+- **Descrição:** 23 páginas, +1.000 respondentes, metodologia com implicit reaction times (IRT) — captura reação implícita além da resposta declarada, reduzindo viés de desejabilidade
+- **Status:** INCLUIR — validar nível de evidência com orientadora antes de finalizar
+- **Dados principais:**
+  - Apenas 10% dos líderes demonstram qualidades de liderança pós-heroica
+  - 71% dos funcionários não acreditam que seus líderes conseguem responder a mudanças de mercado
+  - 44% se sentem empoderados pelos seus líderes
+  - 41% têm clareza sobre a direção da organização e da equipe
+  - 42% recebem treinamento ou coaching em agilidade
+  - Capacidade de feedback caiu de 72% (2022) para 38% (2023)
+  - Liderança ágil percebida: 47% em 2023, vs. 56% pré-pandemia (estagnada)
+  - Correlação 0,82: liderança pós-heroica e cultura ágil forte
+  - Correlação 0,86: liderança pós-heroica e capacidade de resposta ao mercado
+  - Cultura ágil forte associada a aumento de 277% na performance comercial
+- **Placement:** Cap. 4 — liderança como barreira estrutural explicativa do paradoxo
+- **Nota de fonte:** Gray literature de setor (parceria entre consultoria JCURV, Agile Business Consortium e empresa de neurotech Truthsayers). Nível similar ao NTT DATA — não é literatura acadêmica indexada. Enquadrar como tal.
 
-### PDFs das fontes (no projeto Claude.ai)
-Os PDFs estão armazenados como ZIPs com páginas em `.txt` e `.jpeg`. Para lê-los:
-```python
-import zipfile, io
-# Abrir como binário
-with open('arquivo.pdf', 'rb') as f:
-    data = f.read()
-zf = zipfile.ZipFile(io.BytesIO(data))
-# Ler página específica
-page_text = zf.read('3.txt').decode('utf-8')
-```
+#### Business Agility Report 2023 (Business Agility Institute — BAI)
+- **Arquivo:** `202311_BAIBusinessAgilityReport2023.pdf`
+- **Descrição:** 6ª edição, 26 páginas, 215 organizações
+- **Status:** OPCIONAL — não prioritário; entra apenas se a decisão for incluir o BAI como fonte
+- **Dados principais:**
+  - Business Agility Index global caiu pela primeira vez em 5 anos (de 5,0 para 4,4 em 2023)
+  - Colaboração caiu 8%; capacidades estratégicas caíram 6%
+  - Liderança e gestão: desafio #1 pelo segundo ano consecutivo
+  - Resistência à mudança: desafio perene desde a 1ª edição (2018)
+  - Governança: "última área a se transformar"
+  - Apenas 18% das organizações transformando múltiplas funções (queda em relação a anos anteriores)
+- **Placement potencial:** Cap. 4 — argumento de persistência longitudinal dos desafios (liderança + resistência à mudança documentadas desde 2018)
+- **Restrição de uso:** Não citar o índice numérico isoladamente — requer explicação do framework BAI que não vale o espaço disponível
 
-### Geração de .docx
-- Usar biblioteca Node.js `docx`
-- Verificar layout via LibreOffice → PDF → `pdftoppm` JPEG
-- `keepNext`/`keepLines` são instáveis no LibreOffice — usar `pageBreakBefore: true` para headings problemáticos
-
-### Google Drive (quando necessário)
-- Drive MCP suporta `read_file_content` e `create_file` apenas (sem edição direta)
-- Workflow: ler → aplicar mudanças → criar novo arquivo com conteúdo completo atualizado
-- IDs dos arquivos principais:
-  - Introdução + sumário validados: `1ZXtqoQnntRs4ajkuSU5FsLMr1tl2pbiAalLTkMauDEA`
-  - Cap. 1 working document: `1CvJtdhL9zixDFxU7oPakoHJdaymbfNHhhmCYkpPB2jE`
-  - TCC original: `1pm_6QqpIVYCyY6d0QSezN6SDXJZ4occsq2K0xh1GYAI`
+#### Business Agility Report 2025 (Business Agility Institute — BAI)
+- **Arquivo:** `2025BusinessAgilityReport_121225.pdf`
+- **Descrição:** 8ª edição, 30 páginas, 244 organizações
+- **Status:** INCLUIR SE BAI ENTRAR — mais forte dos dois para o argumento do TCC
+- **Dados principais:**
+  - Apenas 22% das organizações declaram que governança apoia a agilidade
+  - "Barreiras à business agility são culturais e sistêmicas, não de processo" (formulação direta)
+  - Líderes verbalmente apoiam agilidade enquanto comportamentos de comando e controle a contradizem (articulação explícita da fachada)
+  - 86% relatam benefícios tangíveis da agilidade
+  - IA: organizações com alta maturidade ágil adotam IA com maior eficácia (score 6,6 vs. 4,2 para baixa maturidade)
+  - 58% das organizações passaram por reestruturação significativa nos últimos 12 meses
+- **Placement potencial:**
+  - Cap. 4: barreiras sistêmicas + liderança contraditória
+  - Conclusão (opcional): relação entre maturidade ágil e adoção de IA — complementar ao DORA 2025
+- **Nota:** O BAI não tem o peso institucional do DORA ou Digital.ai. Decisão de inclusão pendente de avaliação da orientadora.
 
 ---
 
-## 9. PRINCÍPIOS DE COLABORAÇÃO
+### Fontes excluídas
 
-- Apresentar opções antes de entregar uma solução única quando a decisão for consequente
-- A autora toma decisões e ajusta após feedback da orientadora — não esperar validação antes de rascunhar
-- Quando há dúvida sobre escopo (ex: incluir ou não uma fonte), sinalizar e deixar a decisão com a autora
-- Não assumir que a orientadora aprovou algo que não foi explicitamente mencionado como validado
-- O sumário é esqueleto vivo — pode mudar; não tratar como estrutura rígida
+| Fonte                        | Motivo                                                               |
+|------------------------------|----------------------------------------------------------------------|
+| Lean Inception (Caroli, 2017)| Excluída — não deve aparecer em corpo, lista de fontes ou referências |
+| McKinsey                     | Excluída — gray literature sem rigor metodológico adequado           |
+| Prasanth, Valsala & Soomro   | Excluída — tema tangencial, indexação insuficiente                   |
+| Agile Trends PRE25 eBooks    | Pendente — conclusão apenas se aprovado pela orientadora             |
 
 ---
 
-## 10. PRÓXIMOS PASSOS (fila de trabalho)
+## Questões Abertas — Validar com Orientadora
 
-1. Escrever Cap. 3 — Instalando o paradoxo com dados
-   - 3.1: adoção declarada vs. barreiras persistentes (NTT DATA 2024 como âncora)
-   - 3.2: deslocar critério para performance real (DORA metrics)
-   - 3.3: síntese de barreiras estruturais
-2. Escrever Cap. 4 — Explicando por que o paradoxo persiste
-   - Varajão & Trigo (2024) entra aqui como peça central (4.2)
-   - Adkins (2010) entra em 4.3
-3. Escrever Cap. 5 — Conclusão (após validação da orientadora sobre implicações práticas)
-4. Revisão final ABNT + formatação
-5. Apresentação oral (depois que a monografia estiver completa)
+1. **Escopo do objetivo "d":** implicações práticas em um TCC de pesquisa bibliográfica
+2. **Parágrafo não citado no Cap. 2** que se apoia em Varajão & Trigo sem nomeá-los
+3. **Adkins (2010):** citar no corpo ou remover das referências
+4. **Fontes BAI:** nível de evidência aceitável para o trabalho?
+5. **3rd State of Agile Culture Report:** nível de evidência aceitável?
+6. **Agile Trends PRE25 eBooks:** aprovado para conclusão?
+7. **DORA 2025:** dado de AI em IA-assisted dev pode entrar na conclusão como gancho prospectivo?
+
+---
+
+## Correções Pré-Entrega Identificadas
+
+1. Estatística de 45% do SAFe estava atribuída ao NTT DATA — corrigir para State of Agile/Digital.ai
+2. Datas de acesso incompletas nas referências
+3. Conflito de nomenclatura dos relatórios DORA — dois relatórios distintos (ROI of DevOps 2020 e Accelerate State of DevOps 2024) com anos inconsistentes entre corpo e referências; separar entradas e corrigir anos
+4. Adkins (2010) aparece nas referências mas nunca é citado no corpo — remover ou citar
+5. Expressões de escrita IA a revisar: "marcadamente", "de forma inequívoca", "nessa lacuna"
+
+---
+
+## Arquivos no Repositório
+
+| Arquivo                                                          | Descrição                        |
+|------------------------------------------------------------------|----------------------------------|
+| `TCC_CONTEXT.md`                                                 | Este documento                   |
+| `fluxograma-tcc.html`                                            | Fluxograma visual da estrutura do TCC |
+| `chaosreport.pdf`                                                | Chaos Report 1994                |
+| `NTTDATA_Agilidade_na_America_Latina_2024.pdf`                   | NTT DATA 2024                    |
+| `NTT_DATA_Agilidad2022_PT.pdf`                                   | NTT DATA 2022                    |
+| `theroiofdevopstransformationgoogleclouddora_1.pdf`              | DORA ROI of DevOps 2020          |
+| `2022doraacceleratestateodevopsreportportbrbma.pdf`              | DORA Accelerate 2022             |
+| `2024doraacceleratestateodevopsreportptbr_3160.pdf`              | DORA Accelerate 2024 (parte 1)   |
+| `2024doraacceleratestateodevopsreportptbr_361117.pdf`            | DORA Accelerate 2024 (parte 2)   |
+| `2025_abridged_state_of_ai_assisted_software_development_ptbr_1.pdf` | DORA 2025 AI-assisted dev    |
+| `RESA17thAnnualStateOfAgileReport_1.pdf`                         | State of Agile 17ª ed.           |
+| `Digitalai18thStateofAgile_1.pdf`                                | State of Agile 18ª ed.           |
+| `2020ScrumGuidePortugueseBR3_0_1.pdf`                            | Scrum Guide 2020 PT-BR           |
+| `ScrumGuide2010.pdf`                                             | Scrum Guide 2010                 |
+| `1803_05969v1.pdf`                                               | Forsgren et al. — Accelerate (2018) |
+| `3687999.pdf`                                                    | Varajão & Trigo (2024, ACM Queue)|
+| `3rdStateofAgileCultureReport.pdf`                               | 3rd State of Agile Culture Report (2023) |
+| `202311_BAIBusinessAgilityReport2023.pdf`                        | BAI Business Agility Report 2023 |
+| `2025BusinessAgilityReport_121225.pdf`                           | BAI Business Agility Report 2025 |
+| `ANEXO_1__Manual_para_elaborac_a_o_de_TCC__Orientac_o_es_Gerais.pdf` | Manual UERJ               |
+| `Guia_Editorial_para_Produc_a_o_de_um_TCC_com_Escrita_Acade_mica_Autoral.pdf` | Guia editorial |
+
+---
+
+## Acesso ao Documento no Google Drive
+
+- **Introdução + sumário (validados):** fileId `1ZXtqoQnntRs4ajkuSU5FsLMr1tl2pbiAalLTkMauDEA`
+- **Cap. 1 (working document):** fileId `1CvJtdhL9zixDFxU7oPakoHJdaymbfNHhhmCYkpPB2jE`
+- **Documento principal (sessões anteriores):** fileId `1pm_6QqpIVYCyY6d0QSezN6SDXJZ4occsq2K0xh1GYAI`
+
+Leitura via `Google Drive:read_file_content` com o fileId. O conector suporta leitura e criação, não edição direta. Fluxo de edição: ler → modificar → criar novo arquivo.
+
+---
+
+## Notas de Infraestrutura
+
+- GitHub raw URLs bloqueadas por política de rede — upload direto via interface do chat é o caminho confiável
+- Arquivos PDF do projeto armazenados como ZIPs no repositório — ler via `zipfile` em Python com ordenação numérica (`key=lambda x: int(x.replace('.txt',''))`) para os arquivos `.txt` de página
+- Geração de `.docx`: biblioteca Node.js `docx`
+- Verificação de PDF: `soffice --headless --convert-to pdf` + `pdftoppm -jpeg` para inspeção visual
