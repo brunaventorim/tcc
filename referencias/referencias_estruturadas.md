@@ -44,11 +44,6 @@
    - **Tipo:** Livro
    - **Para usar em:** Cap. 1 — citação indireta; paráfrase sem número de página
 
-6. **ADKINS, Lyssa.**
-
-   - *Coaching Agile Teams: A Companion for ScrumMasters, Agile Coaches, and Project Managers in Transition*. Upper Saddle River: Addison-Wesley, 2010.
-   - **Tipo:** Livro
-   - **Para usar em:** Cap. 1
 
 7. **FORSGREN, Nicole; HUMBLE, Jez; KIM, Gene.**
 
