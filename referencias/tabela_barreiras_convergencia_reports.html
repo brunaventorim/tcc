@@ -1,0 +1,242 @@
+
+<style>
+.wrap { padding: 1.5rem 0 1rem; }
+.t-title { font-size: 14px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+.t-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 1.25rem; }
+.tabs { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.tab { padding: 5px 14px; border-radius: var(--radius); border: 0.5px solid var(--border-strong); font-size: 12px; cursor: pointer; color: var(--text-secondary); background: transparent; transition: background .15s; }
+.tab.active { background: var(--surface-1); color: var(--text-primary); border-color: var(--border-stronger); font-weight: 500; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+thead tr { border-bottom: 0.5px solid var(--border-stronger); }
+thead th { text-align: left; padding: 8px 10px; font-weight: 500; font-size: 11px; color: var(--text-secondary); }
+tbody tr { border-bottom: 0.5px solid var(--border); }
+tbody tr:last-child { border-bottom: none; }
+tbody td { padding: 9px 10px; color: var(--text-primary); vertical-align: top; line-height: 1.5; }
+tbody tr:hover { background: var(--surface-1); }
+.check { color: #1d9e75; font-size: 14px; }
+.cross { color: var(--text-muted); font-size: 14px; }
+.pct { font-weight: 500; }
+.pct-hi { color: #e24b4a; }
+.pct-mid { color: #ba7517; }
+.pct-ok { color: #1d9e75; }
+.nd { color: var(--text-muted); font-style: italic; font-size: 11px; }
+.section-label { font-size: 11px; font-weight: 500; color: var(--text-secondary); padding: 12px 10px 4px; background: var(--surface-1); border-bottom: 0.5px solid var(--border); }
+</style>
+<div class="wrap">
+  <div class="t-title">Convergência de achados entre reports</div>
+  <div class="t-sub">Comparativo temático — diferentes fontes sobre os mesmos fenômenos</div>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('barreiras')">Barreiras à adoção</button>
+    <button class="tab" onclick="showTab('adocao')">Adoção e frameworks</button>
+    <button class="tab" onclick="showTab('lideranca')">Liderança</button>
+  </div>
+
+  <div id="tab-barreiras">
+    <table>
+      <thead><tr>
+        <th style="min-width:160px">Barreira</th>
+        <th>NTT DATA 2022</th>
+        <th>NTT DATA 2024</th>
+        <th>State of Agile 18ª</th>
+        <th>BAI 2025</th>
+        <th>State of Agile Culture</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Cultura organizacional</strong></td>
+          <td><span class="pct pct-hi">72%</span></td>
+          <td><span class="pct pct-hi">72%</span></td>
+          <td><span class="check">✓</span> citada</td>
+          <td><span class="check">✓</span> principal</td>
+          <td><span class="check">✓</span> estrutural</td>
+        </tr>
+        <tr>
+          <td><strong>Liderança / gestão</strong></td>
+          <td><span class="pct pct-hi">69%</span></td>
+          <td><span class="pct pct-mid">60%</span></td>
+          <td><span class="check">✓</span> citada</td>
+          <td><span class="check">✓</span> desafio #1</td>
+          <td><span class="pct pct-hi">71%</span> não confiam</td>
+        </tr>
+        <tr>
+          <td><strong>Silos entre áreas</strong></td>
+          <td><span class="pct pct-hi">66%</span></td>
+          <td><span class="nd">n.d.</span></td>
+          <td><span class="check">✓</span> citada</td>
+          <td><span class="check">✓</span> citada</td>
+          <td><span class="nd">n.d.</span></td>
+        </tr>
+        <tr>
+          <td><strong>Processos burocráticos</strong></td>
+          <td><span class="pct pct-hi">62%</span></td>
+          <td><span class="nd">n.d.</span></td>
+          <td><span class="check">✓</span> citada</td>
+          <td><span class="check">✓</span> governança = última a mudar</td>
+          <td><span class="nd">n.d.</span></td>
+        </tr>
+        <tr>
+          <td><strong>Resistência à mudança</strong></td>
+          <td><span class="pct pct-hi">61%</span></td>
+          <td><span class="nd">n.d.</span></td>
+          <td><span class="check">✓</span> citada</td>
+          <td><span class="check">✓</span> perene desde 2018</td>
+          <td><span class="nd">n.d.</span></td>
+        </tr>
+        <tr>
+          <td><strong>Governança incompatível</strong></td>
+          <td><span class="nd">n.d.</span></td>
+          <td><span class="nd">n.d.</span></td>
+          <td><span class="nd">n.d.</span></td>
+          <td><span class="pct pct-hi">78%</span> sem apoio</td>
+          <td><span class="nd">n.d.</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="tab-adocao" style="display:none">
+    <table>
+      <thead><tr>
+        <th style="min-width:160px">Indicador</th>
+        <th>Fonte</th>
+        <th>Dado</th>
+        <th>Ano</th>
+        <th>Abrangência</th>
+      </tr></thead>
+      <tbody>
+        <tr class="section-label"><td colspan="5">Adoção de Scrum</td></tr>
+        <tr>
+          <td>Scrum como framework principal</td>
+          <td>NTT DATA 2024</td>
+          <td><span class="pct pct-ok">93%</span></td>
+          <td>2024</td>
+          <td>América Latina</td>
+        </tr>
+        <tr>
+          <td>Scrum como framework principal</td>
+          <td>State of Agile 18ª</td>
+          <td><span class="pct pct-ok">87%</span></td>
+          <td>2024</td>
+          <td>Global</td>
+        </tr>
+        <tr class="section-label"><td colspan="5">Adoção de SAFe (scaling)</td></tr>
+        <tr>
+          <td>SAFe como framework de escala</td>
+          <td>State of Agile 18ª</td>
+          <td><span class="pct pct-mid">45%</span></td>
+          <td>2024</td>
+          <td>Global</td>
+        </tr>
+        <tr class="section-label"><td colspan="5">Uso de Waterfall</td></tr>
+        <tr>
+          <td>Ainda usam Waterfall</td>
+          <td>State of Agile 17ª</td>
+          <td><span class="pct pct-mid">28%</span></td>
+          <td>2023</td>
+          <td>Global</td>
+        </tr>
+        <tr class="section-label"><td colspan="5">Gap entre declaração e consolidação</td></tr>
+        <tr>
+          <td>Declaram ter cultura ágil</td>
+          <td>NTT DATA 2024</td>
+          <td><span class="pct pct-mid">75%</span></td>
+          <td>2024</td>
+          <td>América Latina</td>
+        </tr>
+        <tr>
+          <td>Cultura ágil consolidada</td>
+          <td>NTT DATA 2024</td>
+          <td><span class="pct pct-hi">38%</span></td>
+          <td>2024</td>
+          <td>América Latina</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="tab-lideranca" style="display:none">
+    <table>
+      <thead><tr>
+        <th style="min-width:180px">Indicador</th>
+        <th>Fonte</th>
+        <th>Dado</th>
+        <th>Ano</th>
+      </tr></thead>
+      <tbody>
+        <tr class="section-label"><td colspan="4">Percepção dos liderados sobre os líderes</td></tr>
+        <tr>
+          <td>Não acreditam que líderes respondem a mudanças</td>
+          <td>State of Agile Culture 3ª ed.</td>
+          <td><span class="pct pct-hi">71%</span></td>
+          <td>2023</td>
+        </tr>
+        <tr>
+          <td>Se sentem empoderados</td>
+          <td>State of Agile Culture 3ª ed.</td>
+          <td><span class="pct pct-hi">44%</span></td>
+          <td>2023</td>
+        </tr>
+        <tr>
+          <td>Recebem treinamento ágil</td>
+          <td>State of Agile Culture 3ª ed.</td>
+          <td><span class="pct pct-hi">42%</span></td>
+          <td>2023</td>
+        </tr>
+        <tr class="section-label"><td colspan="4">Perfil dos líderes</td></tr>
+        <tr>
+          <td>Demonstram liderança pós-heroica</td>
+          <td>State of Agile Culture 3ª ed.</td>
+          <td><span class="pct pct-hi">10%</span></td>
+          <td>2023</td>
+        </tr>
+        <tr>
+          <td>Apoiam verbalmente mas contradizem com comportamento</td>
+          <td>BAI 2025</td>
+          <td><span class="check">✓</span> padrão identificado</td>
+          <td>2025</td>
+        </tr>
+        <tr>
+          <td>Liderança = desafio #1 consecutivo</td>
+          <td>BAI 2023 e 2025</td>
+          <td><span class="check">✓</span> 2 anos</td>
+          <td>2023–25</td>
+        </tr>
+        <tr class="section-label"><td colspan="4">Tendência temporal</td></tr>
+        <tr>
+          <td>Percepção de liderança ágil — pré-pandemia</td>
+          <td>State of Agile Culture 3ª ed.</td>
+          <td><span class="pct pct-mid">56%</span></td>
+          <td>2020</td>
+        </tr>
+        <tr>
+          <td>Percepção de liderança ágil — 2023</td>
+          <td>State of Agile Culture 3ª ed.</td>
+          <td><span class="pct pct-hi">47%</span></td>
+          <td>2023</td>
+        </tr>
+        <tr>
+          <td>Estilo de liderança como barreira — 2022</td>
+          <td>NTT DATA 2022</td>
+          <td><span class="pct pct-hi">69%</span></td>
+          <td>2022</td>
+        </tr>
+        <tr>
+          <td>Estilo de liderança como barreira — 2024</td>
+          <td>NTT DATA 2024</td>
+          <td><span class="pct pct-mid">60%</span></td>
+          <td>2024</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+function showTab(name) {
+  ['barreiras','adocao','lideranca'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t === name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab').forEach((btn, i) => {
+    btn.classList.toggle('active', ['barreiras','adocao','lideranca'][i] === name);
+  });
+}
+</script>
