@@ -1,0 +1,30 @@
+**Quadro de fontes: caracterização metodológica**
+
+*Todas as fontes utilizadas no trabalho: relatórios de mercado, livros e artigos acadêmicos e documentos seminais*
+
+| Fonte | Ano | Base empírica | Abrangência | Como os dados foram coletados | Natureza da fonte | Uso no trabalho |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| **Relatórios de mercado e pesquisa** |  |  |  |  |  |  |
+| **Chaos Report** *Standish Group* | 1994 | 365 organizações | Estados Unidos | Questionário estruturado aplicado a gestores de projetos de TI | Relatório de pesquisa primária: dados originais coletados e analisados pelos autores | Cap. 1 (seção 1.1), Cap. 2 (seção 2.2) |
+| **State of Agile 17ª edição** *Digital.ai* | 2023 | Amostra não divulgada | Global | Survey online autodeclarado: respondentes informam suas próprias práticas e percepções | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 3 |
+| **State of Agile 18ª edição** *Digital.ai* | 2024 | Amostra não divulgada | Global | Survey online autodeclarado: respondentes informam suas próprias práticas e percepções | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 3 |
+| **Agilidade na América Latina** *NTT DATA* | 2022 | 388 profissionais entrevistados | América Latina (7 países) | Entrevistas semiestruturadas combinadas com survey quantitativo | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 3 |
+| **Agilidade na América Latina** *NTT DATA* | 2024 | Amostra não divulgada | América Latina (7 países) | Entrevistas semiestruturadas combinadas com survey quantitativo | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 3 |
+| **ROI of DevOps Transformation** *DORA / Google* | 2020 | Amostra não divulgada | Global | Survey quantitativo com análise de retorno sobre investimento em transformações DevOps | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 3 |
+| **Accelerate State of DevOps** *DORA / Google* | 2022 | ≈ 33.000 profissionais | Global | Survey longitudinal anual: mesmas métricas aplicadas ao longo dos anos para rastrear evolução | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 4 (seção 4.3) |
+| **Accelerate State of DevOps** *DORA / Google* | 2024 | Amostra não divulgada | Global | Survey longitudinal anual: mesmas métricas aplicadas ao longo dos anos para rastrear evolução | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 1 (seção 1.3.2), Cap. 4 |
+| **State of AI-Assisted Software Development** *DORA / Google* | 2025 | Amostra não divulgada | Global | Survey longitudinal com foco na relação entre maturidade ágil e uso de inteligência artificial | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Conclusão |
+| **3rd State of Agile Culture Report** *JCURV / Agile Business Consortium* | 2023 | Mais de 1.000 respondentes | Reino Unido / Global | Survey combinado com testes de reação implícita (IRT): técnica de neurotech que capta respostas automáticas além da declaração consciente, reduzindo viés de desejabilidade | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 4 |
+| **Business Agility Report 8ª edição** *Business Agility Institute* | 2025 | 244 organizações | Global | Survey estruturado aplicado anualmente às organizações participantes | Literatura cinzenta: produzida por organização não acadêmica, sem revisão por pares | Cap. 4, Conclusão |
+| **Livros e artigos acadêmicos** |  |  |  |  |  |  |
+| **Accelerate: The Science of Lean Software and DevOps** *Forsgren, Humble & Kim* | 2018 | Mais de 23.000 profissionais (acumulado em múltiplos anos) | Global | Survey longitudinal com análise fatorial confirmatória: método estatístico que valida a estrutura dos construtos medidos e estabelece relações causais entre variáveis | Literatura acadêmica: publicação revisada por pares em periódico ou livro científico | Cap. 1, Cap. 4 |
+| **Rethinking IT Project Success** *Varajão & Trigo — ACM Queue* | 2024 | Revisão da literatura existente | x | Análise crítica de estudos publicados sobre critérios de sucesso em projetos de TI: não coleta dados primários, mas sintetiza e questiona as métricas adotadas na área | Literatura acadêmica: publicação revisada por pares em periódico ou livro científico | Cap. 1 (seção 1.1), Cap. 2 (seções 2.1 e 2.2), Cap. 4 (seção 4.2) |
+| **Documentos seminais e guias oficiais** |  |  |  |  |  |  |
+| **Manifesto para o Desenvolvimento Ágil de Software** *Beck et al.* | 2001 | x | x | Documento de posicionamento elaborado coletivamente por 17 especialistas em desenvolvimento de software: não é estudo empírico | Documento seminal: texto fundador da abordagem ágil, elaborado pelos criadores dos principais frameworks | Cap. 1 |
+| **The Scrum Guide** *Schwaber & Sutherland* | 2010 | x | x | Guia normativo oficial: define as regras e papéis do framework Scrum | Documento oficial: versão histórica do guia mantido pelos criadores do Scrum | Cap. 1 |
+| **O Guia do Scrum (versão PT-BR)** *Schwaber & Sutherland* | 2020 | x | x | Guia normativo oficial: define as regras e papéis do framework Scrum | Documento oficia: versão atual e revisada do guia mantido pelos criadores do Scrum | Cap. 1 |
+| **Kanban: Successful Evolutionary Change** *David J. Anderson* | 2010 | x | x | Obra de referência baseada na experiência prática do autor na implantação do método Kanban em organizações de software | Literatura acadêmica: publicação revisada por pares em periódico ou livro científico | Cap. 1 |
+| **Scrum: A Arte de Fazer o Dobro do Trabalho** *Sutherland & Sutherland* | 2014 | x | x | Obra de divulgação e aprofundamento do framework Scrum, escrita pelo co-criador do método | Livro de referência: obra do co-criador do Scrum, utilizada via citação indireta (paráfrase) | Cap. 1 |
+
+*n.d. \= não divulgado pelo autor/organização. p.p. \= pontos percentuais.*
+
